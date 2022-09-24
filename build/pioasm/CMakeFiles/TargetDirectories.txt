@@ -1,0 +1,3 @@
+C:/Pico/BDM-interface/build/pioasm/CMakeFiles/pioasm.dir
+C:/Pico/BDM-interface/build/pioasm/CMakeFiles/edit_cache.dir
+C:/Pico/BDM-interface/build/pioasm/CMakeFiles/rebuild_cache.dir

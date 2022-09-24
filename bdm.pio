@@ -1,0 +1,65 @@
+.program bdm
+.side_set 1 opt
+
+; Shift out data on data pin, while clocking on clock pin. 100 cycle of delay between two bit
+; At 1 kHz, this will toggle pin at 10 Hz(100 cycles / 1000 Hz = 0.1 sec)
+
+.wrap_target
+    out pins, 1     side 0  [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    pull ifempty    side 1  [4] ; Stall here when TX FIFO is empty(clock high)
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4]
+    nop                     [4] ; 100 cycle of delay
+.wrap
+
+
+% c-sdk {
+
+// Helper function (for use in C program) to initialize this PIO program
+void bdm_program_init(PIO pio, uint sm, uint offset, uint data_pin, uint clock_pin, float div, bool shift_right, bool autopull, uint pull_threshold) {
+
+    // Sets up state machine and wrap target. This function is automatically
+    // generated in bdm.pio.h.
+    pio_sm_config c = bdm_program_get_default_config(offset);
+
+    // Connect pin to SET pin (control with 'set' instruction)
+    sm_config_set_out_pins(&c, data_pin, 1);
+
+    // Connect debug pin to SIDE-SET pin (control with 'side-set' instruction)
+    sm_config_set_sideset_pins(&c, clock_pin);
+
+    // Set data pin and clock pin to output
+    // Allow PIO to control GPIO pin (as output)
+    pio_gpio_init(pio, data_pin);
+    pio_gpio_init(pio, clock_pin);
+
+    // Set the pin direction (in PIO)
+    pio_sm_set_consecutive_pindirs(pio, sm, data_pin, 1, true);
+    pio_sm_set_consecutive_pindirs(pio, sm, clock_pin, 1, true);
+    
+    // Set the clock divider for the state machine
+    sm_config_set_clkdiv(&c, div);
+
+    // Set shift count threshold
+    sm_config_set_out_shift(&c, shift_right, autopull, pull_threshold);
+
+    // Load configuration and jump to start of the program
+    pio_sm_init(pio, sm, offset, &c);
+}
+
+%}
