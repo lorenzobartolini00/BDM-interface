@@ -27,4 +27,3 @@ f7c1d68fd7c50139c187d4d809660469 pico-sdk/src/rp2_common/cyw43_driver/cyw43_reso
 1d9737ab631741c3b641a9b319d8d4ac pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-mkdir
 1461b21b51306a256a89f1ae3f3561f6 pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-patch
 07fb005b7f13d41e0079f5442b0b5e81 pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-update
-e013617c5c6c5fdfeb43f2ee35a0c876 test.pio.h

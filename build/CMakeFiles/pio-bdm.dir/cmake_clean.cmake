@@ -126,6 +126,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj.d"
   "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj"
   "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj.d"
+  "CMakeFiles/pio-bdm.dir/functions.c.obj"
+  "CMakeFiles/pio-bdm.dir/functions.c.obj.d"
   "CMakeFiles/pio-bdm.dir/main.c.obj"
   "CMakeFiles/pio-bdm.dir/main.c.obj.d"
   "pio-bdm.elf"

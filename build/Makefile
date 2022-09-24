@@ -1702,6 +1702,30 @@ C_\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\C_\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.s
 .PHONY : C_\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c.s
 
+functions.obj: functions.c.obj
+.PHONY : functions.obj
+
+# target to build an object file
+functions.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\functions.c.obj
+.PHONY : functions.c.obj
+
+functions.i: functions.c.i
+.PHONY : functions.i
+
+# target to preprocess a source file
+functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\functions.c.i
+.PHONY : functions.c.i
+
+functions.s: functions.c.s
+.PHONY : functions.s
+
+# target to generate assembly for a file
+functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\functions.c.s
+.PHONY : functions.c.s
+
 main.obj: main.c.obj
 .PHONY : main.obj
 
@@ -1928,6 +1952,9 @@ help:
 	@echo ... C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.obj
 	@echo ... C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.i
 	@echo ... C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.s
+	@echo ... functions.obj
+	@echo ... functions.i
+	@echo ... functions.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

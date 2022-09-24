@@ -178,6 +178,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c" "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj" "gcc" "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj.d"
   "C:/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c" "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj" "gcc" "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj.d"
   "C:/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c" "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj" "gcc" "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj.d"
+  "C:/Pico/BDM-interface/functions.c" "CMakeFiles/pio-bdm.dir/functions.c.obj" "gcc" "CMakeFiles/pio-bdm.dir/functions.c.obj.d"
   "C:/Pico/BDM-interface/main.c" "CMakeFiles/pio-bdm.dir/main.c.obj" "gcc" "CMakeFiles/pio-bdm.dir/main.c.obj.d"
   "C:/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp" "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj" "gcc" "CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj.d"
   )
