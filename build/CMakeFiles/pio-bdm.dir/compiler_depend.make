@@ -3007,6 +3007,13 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_str
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\uart.h
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\dreq.h
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\include\pico\stdio_usb.h
+CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\stdlib.h"
+CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\machine\stdlib.h"
+CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\alloca.h"
+CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\string.h"
+CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\_locale.h"
+CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\strings.h"
+CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\string.h"
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2_common\hardware_pll\include\hardware\pll.h
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_structs\include\hardware\structs\pll.h
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\pll.h
@@ -3017,6 +3024,7 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2_common\hardware
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_structs\include\hardware\structs\pio.h
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\pio.h
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include\hardware\pio_instructions.h
+CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\config.h
 
 
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\BDM-interface\main.c
@@ -3091,6 +3099,13 @@ CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_structs\
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\uart.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\dreq.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\include\pico\stdio_usb.h
+CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\stdlib.h"
+CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\machine\stdlib.h"
+CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\alloca.h"
+CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\string.h"
+CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\_locale.h"
+CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\strings.h"
+CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\string.h"
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2_common\hardware_pll\include\hardware\pll.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_structs\include\hardware\structs\pll.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\pll.h
@@ -3101,8 +3116,9 @@ CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2_common\hardware_pio\
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_structs\include\hardware\structs\pio.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\pio.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include\hardware\pio_instructions.h
-CMakeFiles\pio-bdm.dir\main.c.obj: bdm.pio.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\BDM-interface\config.h
+CMakeFiles\pio-bdm.dir\main.c.obj: bdm.pio.h
+CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\BDM-interface\commands.h
 
 
 
@@ -3568,6 +3584,8 @@ C:\Pico\pico-sdk\src\rp2_common\pico_unique_id\unique_id.c:
 
 C:\Pico\BDM-interface\functions.h:
 
+C:\Pico\BDM-interface\config.h:
+
 C:\Pico\BDM-interface\main.c:
 
-C:\Pico\BDM-interface\config.h:
+C:\Pico\BDM-interface\commands.h:

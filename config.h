@@ -10,8 +10,9 @@
 //                   REF     FBDIV VCO       POSTDIV
 // PLL SYS: 12 / 1 = 12MHz * 128 = 1536 / 6 / 2 = 128MHz
 // PLL SYS: 12 / 1 = 12MHz * 64 = 768 / 4 / 4 = 64MHz
+// PLL SYS: 12 / 1 = 12MHz * 64 = 768 / 6 / 6 = 21.3MHz
 #define VCO_FREQ        768  
-#define POST_DEV1       4
-#define POST_DEV2       4
+#define POST_DEV1       6
+#define POST_DEV2       6
 
-#define PIO_FREQ        1000   //Hz
+#define PIO_FREQ        400   //Hz

@@ -2,12 +2,32 @@
 #include "bdm.pio.h"
 
 #include "config.h"
+#include "commands.h"
 
 int main(){
     // Start usb
     start_usb_connection();
+    /*
 
-    // Set sys clock
+    char str[] = ACK_ENABLE;
+
+    uint num_comm = count_commands(str, '/');
+
+    char *token = NULL;
+
+    // Establish string and get the first token:
+    token = strtok(str, "/");
+
+    // While there are tokens in "str"
+    while ((token != NULL))
+    {
+        printf(" %s\n", token);
+        token = strtok(NULL, "/");
+    }
+
+    */
+
+    // Set sys clock to 64MHz
     set_sys_clock_pll(VCO_FREQ * MHZ, POST_DEV1, POST_DEV2);
 
     // Print all frequency
@@ -30,29 +50,16 @@ int main(){
     printf("Pio clock divider: %.2f\n", div);
 
     // Initialize the program using the helper function in our .pio file
-    bdm_program_init(pio, sm, offset, DATA_PIN, CLK_PIN, div, SHIFT_RIGHT, AUTO_PULL, NUM_BITS);
+    bdm_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, NUM_BITS);
 
+    
     uint data[DATA_LENGTH] = {
         0x55,       // 01010101
         0x08,       // 00001000
-        0x7F        // 01111111
+        0x7F
     };
 
-    // Put data in TX FIFO. If shift_right is disabled, align data to the left.
-    for(int i = 0; i< DATA_LENGTH; i++)
-    {
-        uint d = data[i];
-
-        if(!SHIFT_RIGHT)
-        {
-            uint shift = REG_WIDTH - NUM_BITS;
-            d = d << shift;
-        }
-
-        pio_sm_put_blocking(pio, sm, d);
-    }
-
-    printf("TX FIFO full\n");
+    fill_tx_fifo(pio, sm, data, DATA_LENGTH);
 
     // Start running our PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
@@ -64,6 +71,7 @@ int main(){
     }
 
     printf("TX FIFO empty");
+    
 
     return 0;
 }

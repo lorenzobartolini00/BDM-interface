@@ -23,6 +23,7 @@ void measure_freqs(void) {
     // Can't measure clk_ref / xosc as it is the ref
 }
 
+
 float get_pio_clk_div(float desired_pio_freq)
 {
     return (float)clock_get_hz(clk_sys) / desired_pio_freq;
@@ -40,4 +41,46 @@ void start_usb_connection(void)
         sleep_ms(5000);
         printf("CDC connection enstablished!\n");
     }
+}
+
+void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length)
+{
+    // Put data in TX FIFO. If shift_right is disabled, align data to the left.
+    for(int i = 0; i< length; i++)
+    {
+        uint d = data[i];
+
+        if(!SHIFT_RIGHT)
+        {
+            uint shift = REG_WIDTH - NUM_BITS;
+            d = d << shift;
+        }
+
+        pio_sm_put_blocking(pio, sm, d);
+    }
+
+    // Debug
+    printf("TX FIFO full\n");
+}
+
+
+uint count_commands(char *command_str, char delimiter)
+{
+    int counter = 0;
+
+    for(int i = 0; i < strlen(command_str); i++)
+    {
+        if(command_str[i] == delimiter)
+        {
+            counter++;
+        }
+    }
+
+    return counter + 1;
+}
+
+
+uint convert_to_hex(char *str)
+{
+    return (uint)strtol(str, NULL, 16); 
 }

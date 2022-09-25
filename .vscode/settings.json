@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "string.h": "c",
+        "pll.h": "c",
+        "clocks.h": "c"
+    }
+}

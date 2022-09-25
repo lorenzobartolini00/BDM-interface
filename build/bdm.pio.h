@@ -13,37 +13,25 @@
 // --- //
 
 #define bdm_wrap_target 0
-#define bdm_wrap 19
+#define bdm_wrap 7
 
 static const uint16_t bdm_program_instructions[] = {
             //     .wrap_target
-    0x7401, //  0: out    pins, 1         side 0 [4] 
-    0xa442, //  1: nop                           [4] 
-    0xa442, //  2: nop                           [4] 
-    0xa442, //  3: nop                           [4] 
-    0xa442, //  4: nop                           [4] 
-    0xa442, //  5: nop                           [4] 
-    0xa442, //  6: nop                           [4] 
-    0xa442, //  7: nop                           [4] 
-    0xa442, //  8: nop                           [4] 
-    0xa442, //  9: nop                           [4] 
-    0x9ce0, // 10: pull   ifempty block   side 1 [4] 
-    0xa442, // 11: nop                           [4] 
-    0xa442, // 12: nop                           [4] 
-    0xa442, // 13: nop                           [4] 
-    0xa442, // 14: nop                           [4] 
-    0xa442, // 15: nop                           [4] 
-    0xa442, // 16: nop                           [4] 
-    0xa442, // 17: nop                           [4] 
-    0xa442, // 18: nop                           [4] 
-    0xa442, // 19: nop                           [4] 
+    0x7121, //  0: out    x, 1            side 0 [1] 
+    0x0124, //  1: jmp    !x, 4                  [1] 
+    0xbf42, //  2: nop                    side 1 [7] 
+    0x0006, //  3: jmp    6                          
+    0xa742, //  4: nop                           [7] 
+    0xa042, //  5: nop                               
+    0xb942, //  6: nop                    side 1 [1] 
+    0x80e0, //  7: pull   ifempty block              
             //     .wrap
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program bdm_program = {
     .instructions = bdm_program_instructions,
-    .length = 20,
+    .length = 8,
     .origin = -1,
 };
 
@@ -55,21 +43,17 @@ static inline pio_sm_config bdm_program_get_default_config(uint offset) {
 }
 
 // Helper function (for use in C program) to initialize this PIO program
-void bdm_program_init(PIO pio, uint sm, uint offset, uint data_pin, uint clock_pin, float div, bool shift_right, bool autopull, uint pull_threshold) {
+void bdm_program_init(PIO pio, uint sm, uint offset, uint data_pin, float div, bool shift_right, bool autopull, uint pull_threshold) {
     // Sets up state machine and wrap target. This function is automatically
     // generated in bdm.pio.h.
     pio_sm_config c = bdm_program_get_default_config(offset);
-    // Connect pin to SET pin (control with 'set' instruction)
-    sm_config_set_out_pins(&c, data_pin, 1);
     // Connect debug pin to SIDE-SET pin (control with 'side-set' instruction)
-    sm_config_set_sideset_pins(&c, clock_pin);
+    sm_config_set_sideset_pins(&c, data_pin);
     // Set data pin and clock pin to output
     // Allow PIO to control GPIO pin (as output)
     pio_gpio_init(pio, data_pin);
-    pio_gpio_init(pio, clock_pin);
     // Set the pin direction (in PIO)
     pio_sm_set_consecutive_pindirs(pio, sm, data_pin, 1, true);
-    pio_sm_set_consecutive_pindirs(pio, sm, clock_pin, 1, true);
     // Set the clock divider for the state machine
     sm_config_set_clkdiv(&c, div);
     // Set shift count threshold

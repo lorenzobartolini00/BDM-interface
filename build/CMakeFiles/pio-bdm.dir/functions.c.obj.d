@@ -70,6 +70,13 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\functions.c \
  C:\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/uart.h \
  C:\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/dreq.h \
  C:\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\include/pico/stdio_usb.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\stdlib.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\machine\stdlib.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\alloca.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\string.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\_locale.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\strings.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\string.h \
  C:\Pico\pico-sdk\src\rp2_common\hardware_pll\include/hardware/pll.h \
  C:\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/pll.h \
  C:\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/pll.h \
@@ -79,4 +86,5 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\functions.c \
  C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include/hardware/pio.h \
  C:\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/pio.h \
  C:\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/pio.h \
- C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include/hardware/pio_instructions.h
+ C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include/hardware/pio_instructions.h \
+ C:\Pico\BDM-interface\config.h
