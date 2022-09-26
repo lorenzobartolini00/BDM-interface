@@ -17,6 +17,7 @@ pico_sdk_init()
 add_executable(${PROJECT_NAME}
     main.c
     functions.c
+    pio_functions.c
 )
 
 # Create C header file with the name <pio program>.pio.h
@@ -29,6 +30,7 @@ target_link_libraries(${PROJECT_NAME}
     pico_stdlib
     hardware_clocks
     hardware_pio
+    
 )
 
 # Enable usb output, disable uart output

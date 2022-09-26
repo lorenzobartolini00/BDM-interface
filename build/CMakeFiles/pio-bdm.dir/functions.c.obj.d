@@ -77,14 +77,4 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\functions.c \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\_locale.h \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\strings.h \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\string.h \
- C:\Pico\pico-sdk\src\rp2_common\hardware_pll\include/hardware/pll.h \
- C:\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/pll.h \
- C:\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/pll.h \
- C:\Pico\pico-sdk\src\rp2_common\hardware_clocks\include/hardware/clocks.h \
- C:\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/clocks.h \
- C:\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/clocks.h \
- C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include/hardware/pio.h \
- C:\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/pio.h \
- C:\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/pio.h \
- C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include/hardware/pio_instructions.h \
- C:\Pico\BDM-interface\config.h C:\Pico\BDM-interface\commands.h
+ C:\Pico\BDM-interface\commands.h

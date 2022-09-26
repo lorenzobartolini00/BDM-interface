@@ -1,12 +1,8 @@
 #include "functions.h"
-#include "bdm-out.pio.h"
+#include "pio_functions.h"
 
-#include "config.h"
-#include "commands.h"
 
 int main(){
-    // 
-
 //------------------------Initialization----------------------
     // Start usb
     start_usb_connection();
@@ -32,7 +28,7 @@ int main(){
 
     while(true)
     {
-        printf("Enter a character\n");
+        printf("Enter a command\n");
         scanf("%c", &user_input);
 
         // Get command string depending on what character the user has typed
@@ -49,41 +45,98 @@ int main(){
         // While there are tokens in "commands_string"
         while ((token != NULL))
         {
-            if (token_count == 0)
+            // Print command code
+            printf("%d - %s) ", token_count+1, token);
+
+            if(strcmp(token, "null") != 0)
             {
-                uint comm_hex = convert_to_hex(token);
+                // BDM command tx
+                if (token_count == 0)
+                {
+                    uint comm_hex = convert_to_hex(token);
 
-                // Add bdm-out PIO program to PIO instruction memory, SDK will find location and
-                // return with the memory offset of the program.
-                uint offset = pio_add_program(pio, &bdm_out_program);
+                    pio_data_out(pio, sm, comm_hex, PIO_FREQ);
 
-                // Calculate the PIO clock divider 
-                float div = get_pio_clk_div(PIO_FREQ);
-                printf("Pio clock divider: %.2f\n", div);
+                    // Debug
+                    printf("Command: %s\n", token);
+                }
 
-                // Initialize the program using the helper function in our .pio file
-                bdm_out_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, NUM_BITS);
+                // Delay
+                else if(strcmp(token, "d") == 0)
+                {
+                    // Debug
+                    printf("delay 16 target BDC clock cycles\n");
+                }
+                // Read 8 bits
+                else if(strcmp(token, "RD") == 0)
+                {
+                    // Debug
+                    printf("8 bits of read data in the target-to-host direction\n");
+                }
+                // Write 8 bits
+                else if(strcmp(token, "WD") == 0)
+                {
+                    // Debug
+                    printf("8 bits of write data in the host-to-target direction\n");
+                }
+                // Read 16 bits
+                else if(strcmp(token, "RD16") == 0)
+                {
+                    // Debug
+                    printf("16 bits of read data in the target-to-host direction\n");
+                }
+                // Write 16 bits
+                else if(strcmp(token, "WD16") == 0)
+                {
+                    // Debug
+                    printf("16 bits of write data in the host-to-target direction\n");
+                }
+                // Address
+                else if(strcmp(token, "AAAA") == 0)
+                {
+                    // Debug
+                    printf("a 16-bit address in the host-to-target direction\n");
+                }
+                // Read STATUS
+                else if(strcmp(token, "SS") == 0)
+                {
+                    // Debug
+                    printf("the contents of BDCSCR in the target-to-host direction\n");
+                }
+                // Write control
+                else if(strcmp(token, "CC") == 0)
+                {
+                    // Debug
+                    printf(" 8 bits of write data for BDCSCR in the host-to-target direction\n");
+                }
+                // Read RBKP
+                else if(strcmp(token, "RBKP") == 0)
+                {
+                    // Debug
+                    printf("16 bits of read data in the target-to-host direction (from BDCBKPT breakpoint register)\n");
+                }
+                // Write WBKP
+                else if(strcmp(token, "WBKP") == 0)
+                {
+                    // Debug
+                    printf("16 bits of write data in the host-to-target direction (for BDCBKPT breakpoint register)\n");
+                }
 
-                // Put data in tx fifo
-                put_tx_fifo(pio, sm, comm_hex);
+                // Acquire next token
+                token = strtok(NULL, "/");
+                
+                // Increase token_count to keep track of the command queue
+                token_count++;
 
-                // Start running bdm-out PIO program in the state machine
-                pio_sm_set_enabled(pio, sm, true);
+                // Sleep 500 ms for extra delay between each command
+                sleep_ms(500);
             }
-            else if(strcmp(token, "d"))
+            else
             {
-                uint delay = 0xFF;
-
-                // Put data in tx fifo
-                put_tx_fifo(pio, sm, delay);
+                printf("Command not found\n");
+                break;
             }
-
-            token_count++;
             
-            printf(" %s\n", token);
-            token = strtok(NULL, "/");
-
-            sleep_ms(1000);
         }
     }
 

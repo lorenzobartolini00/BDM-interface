@@ -130,6 +130,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/pio-bdm.dir/functions.c.obj.d"
   "CMakeFiles/pio-bdm.dir/main.c.obj"
   "CMakeFiles/pio-bdm.dir/main.c.obj.d"
+  "CMakeFiles/pio-bdm.dir/pio_functions.c.obj"
+  "CMakeFiles/pio-bdm.dir/pio_functions.c.obj.d"
   "pio-bdm.elf"
   "pio-bdm.elf.manifest"
   "pio-bdm.pdb"

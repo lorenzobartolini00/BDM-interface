@@ -2,6 +2,8 @@
     "files.associations": {
         "string.h": "c",
         "pll.h": "c",
-        "clocks.h": "c"
+        "clocks.h": "c",
+        "bdm-out.pio.h": "c",
+        "pio.h": "c"
     }
 }

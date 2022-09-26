@@ -1750,6 +1750,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\main.c.s
 .PHONY : main.c.s
 
+pio_functions.obj: pio_functions.c.obj
+.PHONY : pio_functions.obj
+
+# target to build an object file
+pio_functions.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\pio_functions.c.obj
+.PHONY : pio_functions.c.obj
+
+pio_functions.i: pio_functions.c.i
+.PHONY : pio_functions.i
+
+# target to preprocess a source file
+pio_functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\pio_functions.c.i
+.PHONY : pio_functions.c.i
+
+pio_functions.s: pio_functions.c.s
+.PHONY : pio_functions.s
+
+# target to generate assembly for a file
+pio_functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\pio_functions.c.s
+.PHONY : pio_functions.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -1958,6 +1982,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... pio_functions.obj
+	@echo ... pio_functions.i
+	@echo ... pio_functions.s
 .PHONY : help
 
 
