@@ -87,4 +87,4 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\functions.c \
  C:\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/pio.h \
  C:\Pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/pio.h \
  C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include/hardware/pio_instructions.h \
- C:\Pico\BDM-interface\config.h
+ C:\Pico\BDM-interface\config.h C:\Pico\BDM-interface\commands.h

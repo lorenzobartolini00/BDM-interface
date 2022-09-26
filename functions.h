@@ -10,6 +10,7 @@
 
 #include "hardware/pio.h"
 #include "config.h"
+#include "commands.h"
 
 // Define the time(in ms) to wait for a CDC connection to be established.
 // This prevent initial program output being lost, at cost of requiring an active CDC connection
@@ -27,6 +28,9 @@ float get_pio_clk_div(float desired_freq);
 // Init I/O
 void start_usb_connection(void);
 
+// Put one word in tx fifo
+void put_tx_fifo(PIO pio, uint sm, uint data);
+
 // Put data in TX FIFO
 void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length);
 
@@ -35,3 +39,6 @@ uint count_commands(char *command_str, char delimiter);
 
 // Convert from string to hexadecimal
 uint convert_to_hex(char *str);
+
+// Return command string from a given user input char
+char *get_command_string(char input);

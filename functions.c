@@ -48,19 +48,23 @@ void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length)
     // Put data in TX FIFO. If shift_right is disabled, align data to the left.
     for(int i = 0; i< length; i++)
     {
-        uint d = data[i];
-
-        if(!SHIFT_RIGHT)
-        {
-            uint shift = REG_WIDTH - NUM_BITS;
-            d = d << shift;
-        }
-
-        pio_sm_put_blocking(pio, sm, d);
+        put_tx_fifo(pio, sm, data[i]);
     }
 
     // Debug
-    printf("TX FIFO full\n");
+    printf("TX FIFO filled\n");
+}
+
+
+void put_tx_fifo(PIO pio, uint sm, uint data)
+{
+    if(!SHIFT_RIGHT)
+    {
+        uint shift = REG_WIDTH - NUM_BITS;
+        data = data << shift;
+    }
+
+    pio_sm_put_blocking(pio, sm, data);
 }
 
 
@@ -83,4 +87,26 @@ uint count_commands(char *command_str, char delimiter)
 uint convert_to_hex(char *str)
 {
     return (uint)strtol(str, NULL, 16); 
+}
+
+char* get_command_string(char input)
+{
+    switch(input)
+    {
+        case 'q': return ACK_ENABLE; break;
+        case 'w': return ACK_DISABLED; break;
+        case 'e': return BACKGROUND; break;
+        case 'r': return GO; break;
+        case 't': return TRACE1; break;
+        case 'y': return TAGGO; break;
+
+        case 'a': return READ_CCR; break;
+        case 's': return READ_PC; break;
+        case 'd': return READ_HX; break;
+        case 'f': return READ_SP; break;
+        case 'g': return READ_NEXT; break;
+        case 'h': return READ_NEXT_WS; break;
+
+        default: return "null"; break;
+    }
 }
