@@ -1,5 +1,5 @@
 C:/Pico/BDM-interface/build/CMakeFiles/pio-bdm.dir
-C:/Pico/BDM-interface/build/CMakeFiles/pio-bdm_bdm_pio_h.dir
+C:/Pico/BDM-interface/build/CMakeFiles/pio-bdm_bdm-out_pio_h.dir
 C:/Pico/BDM-interface/build/CMakeFiles/ELF2UF2Build.dir
 C:/Pico/BDM-interface/build/CMakeFiles/edit_cache.dir
 C:/Pico/BDM-interface/build/CMakeFiles/rebuild_cache.dir

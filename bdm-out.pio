@@ -1,10 +1,11 @@
-.program bdm
+.program bdm_out
 .side_set 1 opt
 
 ; Shift out data on data pin, while clocking on clock pin. 100 cycle of delay between two bit
 ; At 1 kHz, this will toggle pin at 10 Hz(100 cycles / 1000 Hz = 0.1 sec)
 
 .wrap_target
+    pull ifempty         side 1
     out x,  1            side 0  [1]    ; pin BKGD goes low for 4 cycles
     jmp !x  keep_low             [1]
     nop                  side 1  [7]    ; If transmit 1, pin BKGD goes back to high state
@@ -13,19 +14,18 @@ keep_low:
     nop                           [7]   ; If 0 is transmitted, hold     
     nop                                 ; pin BKGD low for 9 cycles
 finish:
-    nop                  side 1   [1]   ; pin BKGD goes high for the last 3 cycles. If was high before, side set operation does not take place
-    pull ifempty        
+    nop                  side 1   [1]   ; pin BKGD goes high for the last 3 cycles. If was high before, side set operation does not take place        
 .wrap
 
 
 % c-sdk {
 
 // Helper function (for use in C program) to initialize this PIO program
-void bdm_program_init(PIO pio, uint sm, uint offset, uint data_pin, float div, bool shift_right, bool autopull, uint pull_threshold) {
+void bdm_out_program_init(PIO pio, uint sm, uint offset, uint data_pin, float div, bool shift_right, bool autopull, uint pull_threshold) {
 
     // Sets up state machine and wrap target. This function is automatically
     // generated in bdm.pio.h.
-    pio_sm_config c = bdm_program_get_default_config(offset);
+    pio_sm_config c = bdm_out_program_get_default_config(offset);
 
     // Connect debug pin to SIDE-SET pin (control with 'side-set' instruction)
     sm_config_set_sideset_pins(&c, data_pin);

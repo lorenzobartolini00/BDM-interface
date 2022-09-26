@@ -1,5 +1,5 @@
 #include "functions.h"
-#include "bdm.pio.h"
+#include "bdm-out.pio.h"
 
 #include "config.h"
 #include "commands.h"
@@ -43,20 +43,20 @@ int main(){
 
     // Add PIO program to PIO instruction memory, SDK will find location and
     // return with the memory offset of the program.
-    uint offset = pio_add_program(pio, &bdm_program);
+    uint offset = pio_add_program(pio, &bdm_out_program);
 
     // Calculate the PIO clock divider 
     float div = get_pio_clk_div(PIO_FREQ);
     printf("Pio clock divider: %.2f\n", div);
 
     // Initialize the program using the helper function in our .pio file
-    bdm_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, NUM_BITS);
+    bdm_out_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, NUM_BITS);
 
     
     uint data[DATA_LENGTH] = {
         0x55,       // 01010101
         0x08,       // 00001000
-        0x7F
+        0x7F        
     };
 
     fill_tx_fifo(pio, sm, data, DATA_LENGTH);

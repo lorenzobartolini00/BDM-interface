@@ -21,7 +21,7 @@ add_executable(${PROJECT_NAME}
 
 # Create C header file with the name <pio program>.pio.h
 pico_generate_pio_header(${PROJECT_NAME}  
-        ${CMAKE_CURRENT_LIST_DIR}/bdm.pio
+        ${CMAKE_CURRENT_LIST_DIR}/bdm-out.pio
 )
 
 # Link to pico_stdlib (gpio, time, etc. functions)

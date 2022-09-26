@@ -1360,9 +1360,9 @@ Discarded input sections
                 0x00000000       0x40 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
  .rodata.__func__.0
                 0x00000000       0x13 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
- .text          0x00000000        0x0 C:\Users\Lori\AppData\Local\Temp\cc2FUK3Q.o
- .data          0x00000000        0x0 C:\Users\Lori\AppData\Local\Temp\cc2FUK3Q.o
- .bss           0x00000000        0x0 C:\Users\Lori\AppData\Local\Temp\cc2FUK3Q.o
+ .text          0x00000000        0x0 C:\Users\Lori\AppData\Local\Temp\cck6hwqx.o
+ .data          0x00000000        0x0 C:\Users\Lori\AppData\Local\Temp\cck6hwqx.o
+ .bss           0x00000000        0x0 C:\Users\Lori\AppData\Local\Temp\cck6hwqx.o
  .data          0x00000000        0x0 c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .bss           0x00000000        0x0 c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .text          0x00000000        0x0 c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libg.a(lib_a-calloc.o)
@@ -1598,7 +1598,7 @@ LOAD c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../
 .boot2          0x10000000      0x100
                 0x10000000                __boot2_start__ = .
  *(.boot2)
- .boot2         0x10000000      0x100 C:\Users\Lori\AppData\Local\Temp\cc2FUK3Q.o
+ .boot2         0x10000000      0x100 C:\Users\Lori\AppData\Local\Temp\cck6hwqx.o
                 0x10000100                __boot2_end__ = .
                 0x00000001                ASSERT (((__boot2_end__ - __boot2_start__) == 0x100), ERROR: Pico second stage bootloader must be 256 bytes in size)
 
@@ -1664,9 +1664,9 @@ LOAD c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../
                 0x100002c0                _init
  *(EXCLUDE_FILE(*libm.a: *libc.a:*lib_a-mem*.o *libgcc.a:) .text*)
  .text          0x100002c4       0x48 c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp/crtbegin.o
- .text.bdm_program_init
+ .text.bdm_out_program_init
                 0x1000030c      0x150 CMakeFiles/pio-bdm.dir/main.c.obj
-                0x1000030c                bdm_program_init
+                0x1000030c                bdm_out_program_init
  .text.main     0x1000045c       0xd0 CMakeFiles/pio-bdm.dir/main.c.obj
                 0x1000045c                main
  .text.measure_freqs
@@ -2470,10 +2470,10 @@ LOAD c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../
                 0x10007ab0       0x4a CMakeFiles/pio-bdm.dir/main.c.obj
  *fill*         0x10007afa        0x2 
  .rodata        0x10007afc        0xc CMakeFiles/pio-bdm.dir/main.c.obj
- .rodata.bdm_program
+ .rodata.bdm_out_program
                 0x10007b08        0x6 CMakeFiles/pio-bdm.dir/main.c.obj
  *fill*         0x10007b0e        0x2 
- .rodata.bdm_program_instructions
+ .rodata.bdm_out_program_instructions
                 0x10007b10       0x10 CMakeFiles/pio-bdm.dir/main.c.obj
  .rodata.measure_freqs.str1.4
                 0x10007b20       0x9e CMakeFiles/pio-bdm.dir/functions.c.obj
@@ -3185,7 +3185,7 @@ LOAD CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_
 LOAD CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
 LOAD CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
 LOAD CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
-LOAD C:\Users\Lori\AppData\Local\Temp\cc2FUK3Q.o
+LOAD C:\Users\Lori\AppData\Local\Temp\cck6hwqx.o
 LOAD c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libstdc++.a
 LOAD c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libm.a
 START GROUP
@@ -3306,7 +3306,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x000007fa       0x2c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
  .ARM.attributes
-                0x00000826       0x22 C:\Users\Lori\AppData\Local\Temp\cc2FUK3Q.o
+                0x00000826       0x22 C:\Users\Lori\AppData\Local\Temp\cck6hwqx.o
  .ARM.attributes
                 0x00000848       0x1e c:/progra~2/gnuarm~1/102021~1.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .ARM.attributes
@@ -3633,149 +3633,149 @@ LOAD linker stubs
  .debug_ranges  0x00004088       0x58 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
  .debug_ranges  0x000040e0      0x4e0 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
 
-.debug_line     0x00000000    0x16184
- .debug_line    0x00000000      0x5df CMakeFiles/pio-bdm.dir/main.c.obj
- .debug_line    0x000005df      0x5c1 CMakeFiles/pio-bdm.dir/functions.c.obj
- .debug_line    0x00000ba0      0x543 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
- .debug_line    0x000010e3      0xc38 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
- .debug_line    0x00001d1b      0x433 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
- .debug_line    0x0000214e      0x24c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
- .debug_line    0x0000239a      0x42f CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
- .debug_line    0x000027c9      0xfc6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
- .debug_line    0x0000378f      0x1e6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/lock_core.c.obj
- .debug_line    0x00003975     0x187d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_time/time.c.obj
- .debug_line    0x000051f2      0xa72 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
- .debug_line    0x00005c64      0x868 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_util/pheap.c.obj
- .debug_line    0x000064cc      0xfe6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/mutex.c.obj
- .debug_line    0x000074b2      0x271 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/critical_section.c.obj
- .debug_line    0x00007723      0x7a3 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
- .debug_line    0x00007ec6      0x91e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
- .debug_line    0x000087e4      0x4fa CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
- .debug_line    0x00008cde      0x3d9 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
- .debug_line    0x000090b7      0x27d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
- .debug_line    0x00009334     0x120e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
- .debug_line    0x0000a542      0x13d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
- .debug_line    0x0000a67f      0x20f CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
- .debug_line    0x0000a88e      0x2c6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
- .debug_line    0x0000ab54      0x41b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
- .debug_line    0x0000af6f      0x30c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
- .debug_line    0x0000b27b      0x693 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
- .debug_line    0x0000b90e       0x8d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
- .debug_line    0x0000b99b      0x3d1 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
- .debug_line    0x0000bd6c      0x2fe CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
- .debug_line    0x0000c06a      0x1bd CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
- .debug_line    0x0000c227       0xb7 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
- .debug_line    0x0000c2de       0xc8 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
- .debug_line    0x0000c3a6      0x18f CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .debug_line    0x0000c535      0xc9b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
- .debug_line    0x0000d1d0      0x405 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
- .debug_line    0x0000d5d5      0x900 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
- .debug_line    0x0000ded5      0x2b3 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
- .debug_line    0x0000e188      0xb10 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
- .debug_line    0x0000ec98      0x85c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
- .debug_line    0x0000f4f4     0x22bd CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
- .debug_line    0x000117b1      0x581 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
- .debug_line    0x00011d32      0xe99 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
- .debug_line    0x00012bcb      0x711 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/tusb.c.obj
- .debug_line    0x000132dc     0x145d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
- .debug_line    0x00014739      0x358 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
- .debug_line    0x00014a91      0x785 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
- .debug_line    0x00015216      0xf6e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
+.debug_line     0x00000000    0x16188
+ .debug_line    0x00000000      0x5e3 CMakeFiles/pio-bdm.dir/main.c.obj
+ .debug_line    0x000005e3      0x5c1 CMakeFiles/pio-bdm.dir/functions.c.obj
+ .debug_line    0x00000ba4      0x543 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
+ .debug_line    0x000010e7      0xc38 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+ .debug_line    0x00001d1f      0x433 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+ .debug_line    0x00002152      0x24c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
+ .debug_line    0x0000239e      0x42f CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
+ .debug_line    0x000027cd      0xfc6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+ .debug_line    0x00003793      0x1e6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/lock_core.c.obj
+ .debug_line    0x00003979     0x187d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_time/time.c.obj
+ .debug_line    0x000051f6      0xa72 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+ .debug_line    0x00005c68      0x868 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_util/pheap.c.obj
+ .debug_line    0x000064d0      0xfe6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/mutex.c.obj
+ .debug_line    0x000074b6      0x271 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/critical_section.c.obj
+ .debug_line    0x00007727      0x7a3 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+ .debug_line    0x00007eca      0x91e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
+ .debug_line    0x000087e8      0x4fa CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
+ .debug_line    0x00008ce2      0x3d9 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
+ .debug_line    0x000090bb      0x27d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
+ .debug_line    0x00009338     0x120e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+ .debug_line    0x0000a546      0x13d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
+ .debug_line    0x0000a683      0x20f CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
+ .debug_line    0x0000a892      0x2c6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+ .debug_line    0x0000ab58      0x41b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+ .debug_line    0x0000af73      0x30c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
+ .debug_line    0x0000b27f      0x693 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+ .debug_line    0x0000b912       0x8d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
+ .debug_line    0x0000b99f      0x3d1 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+ .debug_line    0x0000bd70      0x2fe CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
+ .debug_line    0x0000c06e      0x1bd CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+ .debug_line    0x0000c22b       0xb7 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+ .debug_line    0x0000c2e2       0xc8 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
+ .debug_line    0x0000c3aa      0x18f CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+ .debug_line    0x0000c539      0xc9b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+ .debug_line    0x0000d1d4      0x405 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+ .debug_line    0x0000d5d9      0x900 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+ .debug_line    0x0000ded9      0x2b3 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+ .debug_line    0x0000e18c      0xb10 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+ .debug_line    0x0000ec9c      0x85c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
+ .debug_line    0x0000f4f8     0x22bd CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+ .debug_line    0x000117b5      0x581 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+ .debug_line    0x00011d36      0xe99 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+ .debug_line    0x00012bcf      0x711 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/tusb.c.obj
+ .debug_line    0x000132e0     0x145d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+ .debug_line    0x0001473d      0x358 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
+ .debug_line    0x00014a95      0x785 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
+ .debug_line    0x0001521a      0xf6e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
 
-.debug_str      0x00000000     0x7032
- .debug_str     0x00000000      0x68b CMakeFiles/pio-bdm.dir/main.c.obj
-                                0x775 (size before relaxing)
- .debug_str     0x0000068b      0x170 CMakeFiles/pio-bdm.dir/functions.c.obj
+.debug_str      0x00000000     0x7042
+ .debug_str     0x00000000      0x69b CMakeFiles/pio-bdm.dir/main.c.obj
+                                0x785 (size before relaxing)
+ .debug_str     0x0000069b      0x170 CMakeFiles/pio-bdm.dir/functions.c.obj
                                 0x4da (size before relaxing)
- .debug_str     0x000007fb      0x215 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
+ .debug_str     0x0000080b      0x215 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
                                 0x51b (size before relaxing)
- .debug_str     0x00000a10      0x6a2 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+ .debug_str     0x00000a20      0x6a2 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
                                 0x98e (size before relaxing)
- .debug_str     0x000010b2      0x1b2 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+ .debug_str     0x000010c2      0x1b2 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
                                 0x35a (size before relaxing)
- .debug_str     0x00001264       0x67 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
+ .debug_str     0x00001274       0x67 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
                                 0x216 (size before relaxing)
- .debug_str     0x000012cb       0xe2 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
+ .debug_str     0x000012db       0xe2 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
                                 0x341 (size before relaxing)
- .debug_str     0x000013ad      0x3ab CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+ .debug_str     0x000013bd      0x3ab CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
                                 0x7b7 (size before relaxing)
- .debug_str     0x00001758       0x52 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/lock_core.c.obj
+ .debug_str     0x00001768       0x52 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/lock_core.c.obj
                                 0x1f7 (size before relaxing)
- .debug_str     0x000017aa      0x731 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_time/time.c.obj
+ .debug_str     0x000017ba      0x731 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_time/time.c.obj
                                 0xb8c (size before relaxing)
- .debug_str     0x00001edb      0x146 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+ .debug_str     0x00001eeb      0x146 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
                                 0x68f (size before relaxing)
- .debug_str     0x00002021       0xdc CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_util/pheap.c.obj
+ .debug_str     0x00002031       0xdc CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_util/pheap.c.obj
                                 0x3e0 (size before relaxing)
- .debug_str     0x000020fd      0x15b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/mutex.c.obj
+ .debug_str     0x0000210d      0x15b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/mutex.c.obj
                                 0x5bb (size before relaxing)
- .debug_str     0x00002258       0xca CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/critical_section.c.obj
+ .debug_str     0x00002268       0xca CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/common/pico_sync/critical_section.c.obj
                                 0x2b7 (size before relaxing)
- .debug_str     0x00002322      0x1f6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+ .debug_str     0x00002332      0x1f6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
                                 0x5f9 (size before relaxing)
- .debug_str     0x00002518      0x20c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
+ .debug_str     0x00002528      0x20c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
                                 0x66d (size before relaxing)
- .debug_str     0x00002724       0x57 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
+ .debug_str     0x00002734       0x57 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
                                 0x2d1 (size before relaxing)
- .debug_str     0x0000277b      0x11c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
+ .debug_str     0x0000278b      0x11c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
                                 0x318 (size before relaxing)
- .debug_str     0x00002897       0x61 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
+ .debug_str     0x000028a7       0x61 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
                                 0x215 (size before relaxing)
- .debug_str     0x000028f8      0x25e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+ .debug_str     0x00002908      0x25e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
                                 0x476 (size before relaxing)
- .debug_str     0x00002b56       0x4b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
+ .debug_str     0x00002b66       0x4b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
                                  0x67 (size before relaxing)
- .debug_str     0x00002ba1       0xba CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
+ .debug_str     0x00002bb1       0xba CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
                                 0x250 (size before relaxing)
- .debug_str     0x00002c5b       0x37 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+ .debug_str     0x00002c6b       0x37 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
                                  0x61 (size before relaxing)
- .debug_str     0x00002c92       0x3b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+ .debug_str     0x00002ca2       0x3b CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
                                  0x65 (size before relaxing)
- .debug_str     0x00002ccd       0x93 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
+ .debug_str     0x00002cdd       0x93 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
                                 0x28f (size before relaxing)
- .debug_str     0x00002d60       0x41 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+ .debug_str     0x00002d70       0x41 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
                                  0x6b (size before relaxing)
- .debug_str     0x00002da1       0x46 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
+ .debug_str     0x00002db1       0x46 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
                                  0x70 (size before relaxing)
- .debug_str     0x00002de7       0x39 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+ .debug_str     0x00002df7       0x39 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
                                  0x63 (size before relaxing)
- .debug_str     0x00002e20       0x77 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
+ .debug_str     0x00002e30       0x77 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
                                 0x2ab (size before relaxing)
- .debug_str     0x00002e97       0x3f CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+ .debug_str     0x00002ea7       0x3f CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
                                  0x69 (size before relaxing)
- .debug_str     0x00002ed6       0x3d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+ .debug_str     0x00002ee6       0x3d CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
                                  0x67 (size before relaxing)
- .debug_str     0x00002f13       0x3a CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
+ .debug_str     0x00002f23       0x3a CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
                                  0x64 (size before relaxing)
- .debug_str     0x00002f4d      0x228 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+ .debug_str     0x00002f5d      0x228 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
                                 0x3d8 (size before relaxing)
- .debug_str     0x00003175      0x321 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+ .debug_str     0x00003185      0x321 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
                                 0x7ad (size before relaxing)
- .debug_str     0x00003496      0x656 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+ .debug_str     0x000034a6      0x656 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
                                 0x859 (size before relaxing)
- .debug_str     0x00003aec      0x24e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+ .debug_str     0x00003afc      0x24e CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
                                 0x918 (size before relaxing)
- .debug_str     0x00003d3a      0xad8 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+ .debug_str     0x00003d4a      0xad8 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
                                 0xf7f (size before relaxing)
- .debug_str     0x00004812      0x90c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+ .debug_str     0x00004822      0x90c CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
                                 0xde7 (size before relaxing)
- .debug_str     0x0000511e      0x130 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
+ .debug_str     0x0000512e      0x130 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
                                 0x846 (size before relaxing)
- .debug_str     0x0000524e      0x9bf CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+ .debug_str     0x0000525e      0x9bf CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
                                0x1844 (size before relaxing)
- .debug_str     0x00005c0d       0xe1 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+ .debug_str     0x00005c1d       0xe1 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
                                 0x61e (size before relaxing)
- .debug_str     0x00005cee      0x719 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+ .debug_str     0x00005cfe      0x719 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
                                0x165b (size before relaxing)
- .debug_str     0x00006407       0xbb CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/tusb.c.obj
+ .debug_str     0x00006417       0xbb CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/tusb.c.obj
                                 0x8b7 (size before relaxing)
- .debug_str     0x000064c2      0x379 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+ .debug_str     0x000064d2      0x379 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
                                 0x77b (size before relaxing)
- .debug_str     0x0000683b       0xb6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
+ .debug_str     0x0000684b       0xb6 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
                                 0x269 (size before relaxing)
- .debug_str     0x000068f1      0x2fe CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
+ .debug_str     0x00006901      0x2fe CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
                                 0x5d8 (size before relaxing)
- .debug_str     0x00006bef      0x443 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
+ .debug_str     0x00006bff      0x443 CMakeFiles/pio-bdm.dir/C_/Pico/pico-sdk/src/rp2_common/hardware_pio/pio.c.obj
                                 0xa12 (size before relaxing)
 
 .debug_frame    0x00000000     0x2af8
