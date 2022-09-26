@@ -28,10 +28,11 @@ int main(){
 
     while(true)
     {
-        printf("Enter a command\n");
+        printf("Enter a command: \n");
         scanf("%c", &user_input);
 
         // Get command string depending on what character the user has typed
+        // e.g. if user types letter 'q', the string will be "D5/d"
         char *command_string = get_command_string(user_input);
         char str[15];
         strcpy(str, command_string);
@@ -48,9 +49,10 @@ int main(){
             // Print command code
             printf("%d - %s) ", token_count+1, token);
 
+            // Check if the command is valid
             if(strcmp(token, "null") != 0)
             {
-                // BDM command tx
+                // Transmit command
                 if (token_count == 0)
                 {
                     uint comm_hex = convert_to_hex(token);

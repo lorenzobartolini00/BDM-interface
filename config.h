@@ -1,4 +1,3 @@
-#define DATA_LENGTH     3
 #define NUM_BITS        8
 #define SHIFT_RIGHT     false
 #define AUTO_PULL       false
