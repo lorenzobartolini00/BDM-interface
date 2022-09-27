@@ -4,6 +4,10 @@
         "pll.h": "c",
         "clocks.h": "c",
         "bdm-out.pio.h": "c",
-        "pio.h": "c"
+        "pio.h": "c",
+        "pio_functions.h": "c",
+        "functions.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c"
     }
 }

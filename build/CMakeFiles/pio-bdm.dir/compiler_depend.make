@@ -3015,6 +3015,7 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded
 CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\strings.h"
 CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\string.h"
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\commands.h
+CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\config.h
 
 
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\BDM-interface\main.c
@@ -3670,9 +3671,9 @@ C:\Pico\BDM-interface\functions.h:
 
 C:\Pico\BDM-interface\commands.h:
 
-C:\Pico\BDM-interface\main.c:
-
 C:\Pico\BDM-interface\config.h:
+
+C:\Pico\BDM-interface\main.c:
 
 C:\Pico\BDM-interface\pio_functions.c:
 

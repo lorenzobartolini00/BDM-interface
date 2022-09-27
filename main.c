@@ -22,123 +22,91 @@ int main(){
     uint sm = pio_claim_unused_sm(pio, true);
 
 //------------------------------------------------------------
-
-    // Ask the user a character to insert, in order to determine what command to exceute
-    char user_input;
-
     while(true)
     {
         printf("Enter a command: \n");
-        scanf("%c", &user_input);
+        char user_input[BUFFER_LENGTH + 1];
 
-        // Get command string depending on what character the user has typed
-        // e.g. if user types letter 'q', the string will be "D5/d"
-        char *command_string = get_command_string(user_input);
-        char str[15];
-        strcpy(str, command_string);
+        // Ask the user an input string, in order to determine what command to exceute
+        get_string(user_input);
 
         char *token;
+        char *next_token;
+        uint token_count = 0;
 
         // Establish string and get the first token:
-        token = strtok(str, "/");
-        uint token_count = 0;
+        token = strtok_r(user_input, ":", &next_token);
+
+        // Command code
+        uint comm_hex = convert_to_hex(token);
+        // Whether to perform a delay operation
+        bool do_delay = is_delay_present(comm_hex);
 
         // While there are tokens in "commands_string"
         while ((token != NULL))
         {
-            // Print command code
-            printf("%d - %s) ", token_count+1, token);
-
-            // Check if the command is valid
-            if(strcmp(token, "null") != 0)
+            if (token_count == 0)
             {
-                // Transmit command
-                if (token_count == 0)
+                // Check if the command is valid
+                if (is_command_valid(comm_hex))
                 {
-                    uint comm_hex = convert_to_hex(token);
-
+                    // Transmit command
                     pio_data_out(pio, sm, comm_hex, PIO_FREQ);
 
                     // Debug
                     printf("Command: %s\n", token);
                 }
-
-                // Delay
-                else if(strcmp(token, "d") == 0)
+                else
                 {
                     // Debug
-                    printf("delay 16 target BDC clock cycles\n");
+                    printf("Command not found\n");
+                    break;
                 }
-                // Read 8 bits
-                else if(strcmp(token, "RD") == 0)
-                {
-                    // Debug
-                    printf("8 bits of read data in the target-to-host direction\n");
-                }
-                // Write 8 bits
-                else if(strcmp(token, "WD") == 0)
-                {
-                    // Debug
-                    printf("8 bits of write data in the host-to-target direction\n");
-                }
-                // Read 16 bits
-                else if(strcmp(token, "RD16") == 0)
-                {
-                    // Debug
-                    printf("16 bits of read data in the target-to-host direction\n");
-                }
-                // Write 16 bits
-                else if(strcmp(token, "WD16") == 0)
-                {
-                    // Debug
-                    printf("16 bits of write data in the host-to-target direction\n");
-                }
-                // Address
-                else if(strcmp(token, "AAAA") == 0)
-                {
-                    // Debug
-                    printf("a 16-bit address in the host-to-target direction\n");
-                }
-                // Read STATUS
-                else if(strcmp(token, "SS") == 0)
-                {
-                    // Debug
-                    printf("the contents of BDCSCR in the target-to-host direction\n");
-                }
-                // Write control
-                else if(strcmp(token, "CC") == 0)
-                {
-                    // Debug
-                    printf(" 8 bits of write data for BDCSCR in the host-to-target direction\n");
-                }
-                // Read RBKP
-                else if(strcmp(token, "RBKP") == 0)
-                {
-                    // Debug
-                    printf("16 bits of read data in the target-to-host direction (from BDCBKPT breakpoint register)\n");
-                }
-                // Write WBKP
-                else if(strcmp(token, "WBKP") == 0)
-                {
-                    // Debug
-                    printf("16 bits of write data in the host-to-target direction (for BDCBKPT breakpoint register)\n");
-                }
-
-                // Acquire next token
-                token = strtok(NULL, "/");
-                
-                // Increase token_count to keep track of the command queue
-                token_count++;
-
-                // Sleep 500 ms for extra delay between each command
-                sleep_ms(500);
             }
             else
             {
-                printf("Command not found\n");
-                break;
+                uint nibble = strlen(token);
+                uint bit = nibble * 4;
+
+                if (token[0] == '?' && is_input_data_valid(token))
+                {
+                    if(do_delay)
+                    {
+                        do_delay = false;
+
+                        // Debug
+                        printf("Delay\n", bit);
+                    }
+                    // Debug
+                    printf("Read %d bit\n", bit);
+                }
+                else if(is_output_data_valid(token))
+                {
+                    // Debug
+                    printf("Write %d bit: %d\n", bit, convert_to_hex(token));
+
+                    if(do_delay)
+                    {
+                        // Debug
+                        printf("Delay\n", bit);
+
+                        do_delay = false;
+                    }
+                }
+                else
+                {
+                    break;
+                }
             }
+
+            // Acquire next token
+            token = strtok_r(NULL, ":", &next_token);
             
+            // Increase token_count to keep track of the command queue
+            token_count++;
+
+            // Sleep 500 ms for extra delay between each command
+            sleep_ms(500);
         }
     }
 

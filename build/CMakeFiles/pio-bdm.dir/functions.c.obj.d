@@ -77,4 +77,4 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\functions.c \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\_locale.h \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\strings.h \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\string.h \
- C:\Pico\BDM-interface\commands.h
+ C:\Pico\BDM-interface\commands.h C:\Pico\BDM-interface\config.h

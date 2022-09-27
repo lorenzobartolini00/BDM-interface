@@ -8,8 +8,20 @@
 // Count how many commands are in a given string
 uint count_commands(char *command_str, char delimiter);
 
+uint count_char(char *str, char c);
+
+bool is_input_data_valid(char *str);
+
+bool is_output_data_valid(char *str);
+
 // Convert from string to hexadecimal
 uint convert_to_hex(char *str);
 
-// Return command string from a given user input char
-char *get_command_string(char input);
+// Return whether a command is valid or not
+bool is_command_valid(uint command);
+
+// Determine if delay is present in command string
+bool is_delay_present(uint command);
+
+// Get string
+void get_string(char *buffer);

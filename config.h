@@ -5,6 +5,9 @@
 
 #define DATA_PIN        5  
 
+#define BUFFER_LENGTH   15
+#define NEW_LINE '\r'
+
 //                   REF     FBDIV VCO       POSTDIV
 // PLL SYS: 12 / 1 = 12MHz * 128 = 1536 / 6 / 2 = 128MHz    (Final)
 // PLL SYS: 12 / 1 = 12MHz * 48 = 768 / 6 / 6 = 21.3MHz     (Test)

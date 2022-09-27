@@ -1,19 +1,57 @@
 #include "functions.h"
+#include "config.h"
 
 
 uint count_commands(char *command_str, char delimiter)
 {
+    return count_char(command_str, delimiter);
+}
+
+
+uint count_char(char *str, char c)
+{
     int counter = 0;
 
-    for(int i = 0; i < strlen(command_str); i++)
+    for(int i = 0; i < strlen(str); i++)
     {
-        if(command_str[i] == delimiter)
+        if(str[i] == c)
         {
             counter++;
         }
     }
 
-    return counter + 1;
+    return counter;
+}
+
+
+bool is_input_data_valid(char *str)
+{
+    // Check if input data is valid
+    for(int j = 0; j < strlen(str); j++)
+    {
+        if(str[j] != '?')
+        {
+            printf("Invalid input\n");
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool is_output_data_valid(char *str)
+{
+    // Check if output data is valid
+    for(int j = 0; j < strlen(str); j++)
+    {
+        if(str[j] == '?')
+        {
+            printf("Invalid input\n");
+            return false;
+        }
+    }
+
+    return true;
 }
 
 
@@ -22,43 +60,110 @@ uint convert_to_hex(char *str)
     return (uint)strtol(str, NULL, 16); 
 }
 
-char* get_command_string(char input)
+
+bool is_command_valid(uint command)
 {
-    switch(input)
+    switch(command)
     {
-        case 'q': return ACK_ENABLE; break;
-        case 'w': return ACK_DISABLED; break;
-        case 'e': return BACKGROUND; break;
-        case 'r': return GO; break;
-        case 't': return TRACE1; break;
-        case 'y': return TAGGO; break;
+        case 0xD5: return true; break;
+        case 0xD6: return true; break;
+        case 0x90: return true; break;
+        case 0x08: return true; break;
+        case 0x10: return true; break;
+        case 0x18: return true; break;
 
-        case 'a': return READ_A; break;
-        case 's': return READ_CCR; break;
-        case 'd': return READ_PC; break;
-        case 'f': return READ_HX; break;
-        case 'g': return READ_SP; break;
-        case 'h': return READ_NEXT; break;
-        case 'j': return READ_NEXT_WS; break;
+        case 0x68: return true; break;
+        case 0x69: return true; break;
+        case 0x6B: return true; break;
+        case 0x6C: return true; break;
+        case 0x6F: return true; break;
+        case 0x70: return true; break;
+        case 0x71: return true; break;
 
-        case 'z': return WRITE_A; break;
-        case 'x': return WRITE_CCR; break;
-        case 'c': return WRITE_PC; break;
-        case 'v': return WRITE_HX; break;
-        case 'b': return WRITE_SP; break;
-        case 'n': return WRITE_NEXT; break;
-        case 'm': return WRITE_NEXT_WS; break;
+        case 0x48: return true; break;
+        case 0x49: return true; break;
+        case 0x4B: return true; break;
+        case 0x4C: return true; break;
+        case 0x4F: return true; break;
+        case 0x50: return true; break;
+        case 0x51: return true; break;
 
-        case '1': return READ_STATUS; break;
-        case '2': return WRITE_CONTROL; break;
-        case '3': return READ_BYTE; break;
-        case '4': return READ_BYTE_WS; break;
-        case '5': return READ_LAST; break;
-        case '6': return WRITE_BYTE; break;
-        case '7': return WRITE_BYTE_WS; break;
-        case '8': return READ_BKPT; break;
-        case '9': return WRITE_BKPT; break;
+        case 0xE4: return true; break;
+        case 0xC4: return true; break;
+        case 0xE0: return true; break;
+        case 0xE1: return true; break;
+        case 0xE8: return true; break;
+        case 0xC0: return true; break;
+        case 0xC1: return true; break;
+        case 0xE2: return true; break;
+        case 0xC2: return true; break;
 
-        default: return "null"; break;
+        default: return false; break;
     }
+}
+
+
+bool is_delay_present(uint command)
+{
+    switch(command)
+    {
+        case 0xD5: return true; break;
+        case 0xD6: return true; break;
+        case 0x90: return true; break;
+        case 0x08: return true; break;
+        case 0x10: return true; break;
+        case 0x18: return true; break;
+
+        case 0x68: return true; break;
+        case 0x69: return true; break;
+        case 0x6B: return true; break;
+        case 0x6C: return true; break;
+        case 0x6F: return true; break;
+        case 0x70: return true; break;
+        case 0x71: return true; break;
+
+        case 0x48: return true; break;
+        case 0x49: return true; break;
+        case 0x4B: return true; break;
+        case 0x4C: return true; break;
+        case 0x4F: return true; break;
+        case 0x50: return true; break;
+        case 0x51: return true; break;
+
+        case 0xE4: return false; break;
+        case 0xC4: return false; break;
+        case 0xE0: return true; break;
+        case 0xE1: return true; break;
+        case 0xE8: return false; break;
+        case 0xC0: return true; break;
+        case 0xC1: return true; break;
+        case 0xE2: return false; break;
+        case 0xC2: return false; break;
+
+        default: return false; break;
+    }
+}
+
+
+void get_string(char *buffer)
+{
+    int i;
+
+    char ch;
+
+    scanf("%c", &ch);
+
+    for (i = 0; ((i < BUFFER_LENGTH) && (ch != (char)EOF) && (ch != (char)NEW_LINE)); i++)
+    {
+        buffer[i] = (char) ch;
+
+        printf("%c", buffer[i]);
+
+        scanf("%c", &ch);
+    }
+
+    // Terminate string with a null character
+    buffer[i] = '\0';
+
+    printf("\n");
 }
