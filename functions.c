@@ -26,7 +26,15 @@ uint count_char(char *str, char c)
 
 bool is_input_data_valid(char *str)
 {
-    // Check if input data is valid
+    // Check if data is 8 or 16 bit
+    uint nibble = strlen(str);
+
+    if(nibble != 2 && nibble != 4)
+    {
+        return false;
+    }
+
+    // Check if input data does not contains invalid chars
     for(int j = 0; j < strlen(str); j++)
     {
         if(str[j] != '?')
@@ -41,7 +49,15 @@ bool is_input_data_valid(char *str)
 
 bool is_output_data_valid(char *str)
 {
-    // Check if output data is valid
+    // Check if data is 8 or 16 bit
+    uint nibble = strlen(str);
+
+    if(nibble != 2 && nibble != 4)
+    {
+        return false;
+    }
+
+    // Check if output data does not contains invalid chars
     for(int j = 0; j < strlen(str); j++)
     {
         if(str[j] == '?')

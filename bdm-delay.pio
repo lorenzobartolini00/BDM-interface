@@ -1,0 +1,41 @@
+.program bdm_delay
+.side_set 1 opt
+
+; Delay for 16 cycles. 
+
+
+.wrap_target
+
+.wrap
+
+
+% c-sdk {
+
+// Helper function (for use in C program) to initialize this PIO program
+void bdm_delay_program_init(PIO pio, uint sm, uint offset, uint data_pin, float div, bool shift_right, bool autopull, uint pull_threshold) {
+
+    // Sets up state machine and wrap target. This function is automatically
+    // generated in bdm.pio.h.
+    pio_sm_config c = bdm_out_program_get_default_config(offset);
+
+    // Connect debug pin to SIDE-SET pin (control with 'side-set' instruction)
+    sm_config_set_sideset_pins(&c, data_pin);
+
+    // Set data pin and clock pin to output
+    // Allow PIO to control GPIO pin (as output)
+    pio_gpio_init(pio, data_pin);
+
+    // Set the pin direction (in PIO)
+    pio_sm_set_consecutive_pindirs(pio, sm, data_pin, 1, true);
+    
+    // Set the clock divider for the state machine
+    sm_config_set_clkdiv(&c, div);
+
+    // Set shift count threshold
+    sm_config_set_out_shift(&c, shift_right, autopull, pull_threshold);
+
+    // Load configuration and jump to start of the program
+    pio_sm_init(pio, sm, offset, &c);
+}
+
+%}

@@ -21,6 +21,9 @@ int main(){
     // Get first free state machine in PIO 0
     uint sm = pio_claim_unused_sm(pio, true);
 
+    // Set GPIO to be pulled up
+    gpio_pull_up(DATA_PIN);
+
 //------------------------------------------------------------
     while(true)
     {
@@ -39,6 +42,7 @@ int main(){
 
         // Command code
         uint comm_hex = convert_to_hex(token);
+
         // Whether to perform a delay operation
         bool do_delay = is_delay_present(comm_hex);
 
@@ -51,10 +55,16 @@ int main(){
                 if (is_command_valid(comm_hex))
                 {
                     // Transmit command
-                    pio_data_out(pio, sm, comm_hex, PIO_FREQ);
+                    pio_data_out(pio, sm, comm_hex, PIO_FREQ, COMMAND_BITS);
 
                     // Debug
                     printf("Command: %s\n", token);
+
+                    // Wait for the OSR to be emptied
+                    // Interrupt?
+
+                    // Debug
+                    printf("Empty\n");
                 }
                 else
                 {
@@ -65,34 +75,48 @@ int main(){
             }
             else
             {
+                // Count how many bit in incoming data
                 uint nibble = strlen(token);
                 uint bit = nibble * 4;
 
+                // Check whether is input data or output data
+                // If first char is '?', then is input data, otherwise is output
                 if (token[0] == '?' && is_input_data_valid(token))
                 {
                     if(do_delay)
                     {
+                        // Only one delay per command. After delay takes place, set do_delay flag to false
                         do_delay = false;
 
-                        // Debug
-                        printf("Delay\n", bit);
+                        delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
                     }
                     // Debug
                     printf("Read %d bit\n", bit);
                 }
                 else if(is_output_data_valid(token))
                 {
+                    // Transmit data
+                    uint data = convert_to_hex(token);
+                    pio_data_out(pio, sm, data, PIO_FREQ, bit);
+
                     // Debug
-                    printf("Write %d bit: %d\n", bit, convert_to_hex(token));
+                    printf("Write %d bit: %d\n", bit, data);
+
+                    // Wait for the OSR to be emptied
+                    // Interrupt?
+
+                    // Debug
+                    printf("Empty\n");
 
                     if(do_delay)
                     {
-                        // Debug
-                        printf("Delay\n", bit);
-
+                        // Only one delay per command. After delay takes place, set do_delay flag to false
                         do_delay = false;
+
+                        delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
                     }
                 }
+                // If data is invalid, exit from cycle
                 else
                 {
                     break;

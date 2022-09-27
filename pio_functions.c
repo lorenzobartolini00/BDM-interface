@@ -45,12 +45,12 @@ void start_usb_connection(void)
 }
 
 
-void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length)
+void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit)
 {
     // Put data in TX FIFO. If shift_right is disabled, align data to the left.
     for(int i = 0; i< length; i++)
     {
-        put_tx_fifo(pio, sm, data[i]);
+        put_tx_fifo(pio, sm, data[i], bit);
     }
 
     // Debug
@@ -58,11 +58,11 @@ void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length)
 }
 
 
-void put_tx_fifo(PIO pio, uint sm, uint data)
+void put_tx_fifo(PIO pio, uint sm, uint data, uint bit)
 {
     if(!SHIFT_RIGHT)
     {
-        uint shift = REG_WIDTH - NUM_BITS;
+        uint shift = REG_WIDTH - bit;
         data = data << shift;
     }
 
@@ -72,7 +72,7 @@ void put_tx_fifo(PIO pio, uint sm, uint data)
 // Actual commands---------------------------------------------------------------
 
 // Tx command
-void pio_data_out(PIO pio, uint sm, uint data, float pio_freq)
+void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
 {
     // Clear instruction memory first
     pio_clear_instruction_memory(pio);
@@ -85,11 +85,21 @@ void pio_data_out(PIO pio, uint sm, uint data, float pio_freq)
     float div = get_pio_clk_div(pio_freq);
 
     // Initialize the program using the helper function in our .pio file
-    bdm_out_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, NUM_BITS);
+    bdm_out_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, num_bit);
 
     // Put data in tx fifo
-    put_tx_fifo(pio, sm, data);
+    put_tx_fifo(pio, sm, data, num_bit);
 
     // Start running bdm-out PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
+}
+
+// Delay
+void delay(PIO pio, uint sm, float pio_freq, uint cycles)
+{
+    // Stop running bdm-out PIO program in the state machine
+    //pio_sm_set_enabled(pio, sm, false);
+
+    // Debug
+    printf("Delay\n");
 }

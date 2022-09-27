@@ -1,9 +1,10 @@
-#define NUM_BITS        8
+#define COMMAND_BITS    8
 #define SHIFT_RIGHT     false
 #define AUTO_PULL       false
 #define REG_WIDTH       32
+#define DELAY_CYCLES    16
 
-#define DATA_PIN        5  
+#define DATA_PIN        5
 
 #define BUFFER_LENGTH   15
 #define NEW_LINE '\r'

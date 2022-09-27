@@ -14,7 +14,6 @@
 #define READ_NEXT	    "70/d/RD"		//	0111 0000 + delay + read
 #define READ_NEXT_WS	"71/d/SS/RD"	//	0111 0001 + delay + read SS + read data
 
-
 //--------------------------------------------------
 #define WRITE_A 	    "48/WD/d" 	    //	0100 1000 + write + delay
 #define WRITE_CCR  	    "49/WD/d" 	    //	0100 1001 + write + delay
