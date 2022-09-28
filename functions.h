@@ -21,7 +21,7 @@ uint convert_to_hex(char *str);
 bool is_command_valid(uint command);
 
 // Determine if delay is present in command string
-bool is_delay_present(uint command);
+uint get_delay_position(uint command);
 
 // Get string
 void get_string(char *buffer);

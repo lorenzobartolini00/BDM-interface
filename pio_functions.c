@@ -111,8 +111,7 @@ void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
 // Delay
 void delay(PIO pio, uint sm, float pio_freq, uint cycles)
 {
-    // The number of actual cycles is (cycles - 3), since one cycle is occupied by 'pull' instruction,
-    // one by 'out' instruction and one cycle is extra due to how 'jmp x-- label' works.
+    // See bdm-delay.pio
     if ( cycles > 2 )
     {
         cycles -= 3;

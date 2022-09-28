@@ -40,5 +40,5 @@ void wait_end_operation(PIO pio, uint sm);
 // Write bdm-out program to sm, add data to tx FIFO and start program. Clear pio instruction memory first.
 void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint bit);
 
-// Do 16 cycle delay
+// Do x cycle delay
 void delay(PIO pio, uint sm, float pio_freq, uint cycles);

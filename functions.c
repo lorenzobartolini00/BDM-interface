@@ -119,44 +119,49 @@ bool is_command_valid(uint command)
 }
 
 
-bool is_delay_present(uint command)
+uint get_delay_position(uint command)
 {
+    // -1 -> No delay
+    // 0 -> after the command, e.g. "D5/d" or "68/d/RD"
+    // 1 -> after the first token, e.g. "48/WD/d"
+    // 2 -> after the second token, e.g. "C0/AAAA/WD/d"
+    
     switch(command)
     {
-        case 0xD5: return true; break;
-        case 0xD6: return true; break;
-        case 0x90: return true; break;
-        case 0x08: return true; break;
-        case 0x10: return true; break;
-        case 0x18: return true; break;
+        case 0xD5: return 0; break;
+        case 0xD6: return 0; break;
+        case 0x90: return 0; break;
+        case 0x08: return 0; break;
+        case 0x10: return 0; break;
+        case 0x18: return 0; break;
 
-        case 0x68: return true; break;
-        case 0x69: return true; break;
-        case 0x6B: return true; break;
-        case 0x6C: return true; break;
-        case 0x6F: return true; break;
-        case 0x70: return true; break;
-        case 0x71: return true; break;
+        case 0x68: return 0; break;
+        case 0x69: return 0; break;
+        case 0x6B: return 0; break;
+        case 0x6C: return 0; break;
+        case 0x6F: return 0; break;
+        case 0x70: return 0; break;
+        case 0x71: return 0; break;
 
-        case 0x48: return true; break;
-        case 0x49: return true; break;
-        case 0x4B: return true; break;
-        case 0x4C: return true; break;
-        case 0x4F: return true; break;
-        case 0x50: return true; break;
-        case 0x51: return true; break;
+        case 0x48: return 1; break;
+        case 0x49: return 1; break;
+        case 0x4B: return 1; break;
+        case 0x4C: return 1; break;
+        case 0x4F: return 1; break;
+        case 0x50: return 1; break;
+        case 0x51: return 1; break;
 
-        case 0xE4: return false; break;
-        case 0xC4: return false; break;
-        case 0xE0: return true; break;
-        case 0xE1: return true; break;
-        case 0xE8: return false; break;
-        case 0xC0: return true; break;
-        case 0xC1: return true; break;
-        case 0xE2: return false; break;
-        case 0xC2: return false; break;
+        case 0xE4: return -1; break;
+        case 0xC4: return -1; break;
+        case 0xE0: return 1; break;
+        case 0xE1: return 1; break;
+        case 0xE8: return -1; break;
+        case 0xC0: return 2; break;
+        case 0xC1: return 2; break;
+        case 0xE2: return -1; break;
+        case 0xC2: return -1; break;
 
-        default: return false; break;
+        default: return -1; break;
     }
 }
 

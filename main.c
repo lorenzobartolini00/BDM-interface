@@ -27,7 +27,7 @@ int main(){
 //------------------------------------------------------------
     while(true)
     {
-        printf("Enter a command: \n");
+        printf("Enter a command: ");
         char user_input[BUFFER_LENGTH + 1];
 
         // Ask the user an input string, in order to determine what command to exceute
@@ -43,16 +43,16 @@ int main(){
         // Command code
         uint comm_hex = convert_to_hex(token);
 
-        // Whether to perform a delay operation
-        bool do_delay = is_delay_present(comm_hex);
+        // When performing a delay operation
+        uint delay_position = get_delay_position(comm_hex);
 
-        // While there are tokens in "commands_string"
-        while ((token != NULL))
+        // Check if the command is valid
+        if(is_command_valid(comm_hex)) 
         {
-            if (token_count == 0)
+            // While there are tokens in "commands_string"
+            while ((token != NULL))
             {
-                // Check if the command is valid
-                if (is_command_valid(comm_hex))
+                if (token_count == 0)
                 {
                     // Transmit command
                     pio_data_out(pio, sm, comm_hex, PIO_FREQ, COMMAND_BITS);
@@ -61,84 +61,66 @@ int main(){
                     printf("Command: %s\n", token);
 
                     wait_end_operation(pio, sm);
-
-                    // Debug
-                    printf("Empty\n");
                 }
                 else
                 {
-                    // Debug
-                    printf("Command not found\n");
-                    break;
-                }
-            }
-            else
-            {
-                // Count how many bit in incoming data
-                uint nibble = strlen(token);
-                uint bit = nibble * 4;
+                    // Count how many bit in incoming data
+                    uint nibble = strlen(token);
+                    uint bit = nibble * 4;
 
-                // Check whether is input data or output data
-                // If first char is '?', then is input data, otherwise is output
-                if (token[0] == '?' && is_input_data_valid(token))
-                {
-                    if(do_delay)
+                    // Check whether is input data or output data
+                    // If first char is '?', then is input data, otherwise is output
+                    if (token[0] == '?' && is_input_data_valid(token))
                     {
-                        // Sleep 500 ms for extra delay between each command
-                        sleep_ms(500);
+                        // Read data
 
-                        // Only one delay per command. After delay takes place, set do_delay flag to false
-                        do_delay = false;
 
-                        delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
+                        // Debug
+                        printf("Read %d bit\n", bit);
+                    }
+                    else if(is_output_data_valid(token))
+                    {
+                        // Transmit data
+                        uint data = convert_to_hex(token);
+                        pio_data_out(pio, sm, data, PIO_FREQ, bit);
+
+                        // Debug
+                        printf("Write %d bit: %d\n", bit, data);
 
                         wait_end_operation(pio, sm);
                     }
-                    // Debug
-                    printf("Read %d bit\n", bit);
+                    // If data is invalid, exit from cycle
+                    else
+                    {
+                        break;
+                    }
                 }
-                else if(is_output_data_valid(token))
-                {
-                    // Transmit data
-                    uint data = convert_to_hex(token);
-                    pio_data_out(pio, sm, data, PIO_FREQ, bit);
 
-                    // Debug
-                    printf("Write %d bit: %d\n", bit, data);
+                // Do a delay if expected
+                if(delay_position != -1 && token_count == delay_position)
+                {
+                    // Sleep 500 ms for extra delay between each command
+                    sleep_ms(500);
+
+                    delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
 
                     wait_end_operation(pio, sm);
-
-                    // Debug
-                    printf("Empty\n");
-
-                    if(do_delay)
-                    {
-                        // Sleep 500 ms for extra delay between each command
-                        sleep_ms(500);
-
-                        // Only one delay per command. After delay takes place, set do_delay flag to false
-                        do_delay = false;
-
-                        delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
-
-                        wait_end_operation(pio, sm);
-                    }
                 }
-                // If data is invalid, exit from cycle
-                else
-                {
-                    break;
-                }
+                // Acquire next token
+                token = strtok_r(NULL, ":", &next_token);
+                
+                // Increase token_count to keep track of the command queue
+                token_count++;
+
+                // Sleep 500 ms for extra delay between each command
+                sleep_ms(500);
             }
-
-            // Acquire next token
-            token = strtok_r(NULL, ":", &next_token);
-            
-            // Increase token_count to keep track of the command queue
-            token_count++;
-
-            // Sleep 500 ms for extra delay between each command
-            sleep_ms(500);
+        }
+        else
+        {
+            // Debug
+            printf("Command not found\n");
+            break;
         }
     }
 
