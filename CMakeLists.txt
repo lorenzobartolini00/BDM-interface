@@ -24,13 +24,15 @@ add_executable(${PROJECT_NAME}
 pico_generate_pio_header(${PROJECT_NAME}  
         ${CMAKE_CURRENT_LIST_DIR}/bdm-out.pio
 )
+pico_generate_pio_header(${PROJECT_NAME}  
+        ${CMAKE_CURRENT_LIST_DIR}/bdm-delay.pio
+)
 
 # Link to pico_stdlib (gpio, time, etc. functions)
 target_link_libraries(${PROJECT_NAME}
     pico_stdlib
     hardware_clocks
     hardware_pio
-    
 )
 
 # Enable usb output, disable uart output

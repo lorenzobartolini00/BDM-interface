@@ -60,8 +60,9 @@ int main(){
                     // Debug
                     printf("Command: %s\n", token);
 
-                    // Wait for the OSR to be emptied
-                    // Interrupt?
+                    // Wait for the transmission to complete. 
+                    // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
+                    while(pio_sm_is_rx_fifo_empty(pio, sm));
 
                     // Debug
                     printf("Empty\n");
@@ -85,10 +86,17 @@ int main(){
                 {
                     if(do_delay)
                     {
+                        // Sleep 500 ms for extra delay between each command
+                        sleep_ms(500);
+
                         // Only one delay per command. After delay takes place, set do_delay flag to false
                         do_delay = false;
 
                         delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
+
+                        // Wait for the delay to complete. 
+                        // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
+                        while(pio_sm_is_rx_fifo_empty(pio, sm));
                     }
                     // Debug
                     printf("Read %d bit\n", bit);
@@ -102,18 +110,26 @@ int main(){
                     // Debug
                     printf("Write %d bit: %d\n", bit, data);
 
-                    // Wait for the OSR to be emptied
-                    // Interrupt?
+                    // Wait for the transmission to complete. 
+                    // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
+                    while(pio_sm_is_rx_fifo_empty(pio, sm));
 
                     // Debug
                     printf("Empty\n");
 
                     if(do_delay)
                     {
+                        // Sleep 500 ms for extra delay between each command
+                        sleep_ms(500);
+
                         // Only one delay per command. After delay takes place, set do_delay flag to false
                         do_delay = false;
 
                         delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
+
+                        // Wait for the delay to complete. 
+                        // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
+                        while(pio_sm_is_rx_fifo_empty(pio, sm));
                     }
                 }
                 // If data is invalid, exit from cycle

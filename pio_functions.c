@@ -1,5 +1,6 @@
 #include "pio_functions.h"
 #include "bdm-out.pio.h"
+#include "bdm-delay.pio.h"
 
 // Utils------------------------------------------------------
 void measure_freqs(void) {
@@ -74,6 +75,9 @@ void put_tx_fifo(PIO pio, uint sm, uint data, uint bit)
 // Tx command
 void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
 {
+    // Stop running bdm-out PIO program in the state machine
+    pio_sm_set_enabled(pio, sm, false);
+
     // Clear instruction memory first
     pio_clear_instruction_memory(pio);
 
@@ -87,6 +91,8 @@ void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
     // Initialize the program using the helper function in our .pio file
     bdm_out_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, num_bit);
 
+    pio_sm_clear_fifos(pio, sm);
+
     // Put data in tx fifo
     put_tx_fifo(pio, sm, data, num_bit);
 
@@ -97,8 +103,37 @@ void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
 // Delay
 void delay(PIO pio, uint sm, float pio_freq, uint cycles)
 {
-    // Stop running bdm-out PIO program in the state machine
-    //pio_sm_set_enabled(pio, sm, false);
+    // The number of actual cycles is (cycles - 3), since one cycle is occupied by 'pull' instruction,
+    // one by 'out' instruction and one cycle is extra due to how 'jmp x-- label' works.
+    if ( cycles > 2 )
+    {
+        cycles -= 3;
+    }
+
+    // Stop running PIO program in the state machine
+    pio_sm_set_enabled(pio, sm, false);
+
+    // Clear instruction memory
+    pio_clear_instruction_memory(pio);
+
+    // Add bdm-delay PIO program to PIO instruction memory, SDK will find location and
+    // return with the memory offset of the program.
+    uint offset = pio_add_program(pio, &bdm_delay_program);
+
+    // Calculate the PIO clock divider 
+    float div = get_pio_clk_div(pio_freq);
+
+    // Initialize the program using the helper function in our .pio file
+    bdm_delay_program_init(pio, sm, offset, div);
+
+    // Clear eventual data in rx fifo, which must be clear before execution(otherwise the system program will not wait for the delay to end)
+    pio_sm_clear_fifos(pio, sm);
+
+    // Put data in tx fifo
+    pio_sm_put_blocking(pio, sm, cycles);
+
+    // Start running bdm-out PIO program in the state machine
+    pio_sm_set_enabled(pio, sm, true);
 
     // Debug
     printf("Delay\n");

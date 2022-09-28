@@ -1,38 +1,50 @@
 .program bdm_delay
 .side_set 1 opt
 
-; Delay for 16 cycles. 
+; System writes in tx fifo the following value: (number of delay cycles - 3), 
+; since we have to account 3 extra cycles:
+; 1) 'pull'instruction
+; 2) 'out',instruction
+; 3) 'jmp x--(when x = 1)' instruction
 
+; So the scratch register x values (desired_cycles - 3)
+; e.g.: if desired_cycles = 16, then 'wait_a_cycle' loop runs 14 times, plus an 'out' and a 'pull' cycle: 16 total cycles.
 
 .wrap_target
-
+    pull                    side 0        ; Copy tx fifo to OSR
+    out x, 32               side 0        ; Copy OSR to Scratch Register X, which acts like a loop counter
+wait_a_cycle:
+    jmp x-- wait_a_cycle                  ; Loop runs ((desired_cycles - 3) + 1) times. 
+    in null 32              side 1        ; dummy read to signal the end of delay
+    pull                                  ; Stall here
 .wrap
-
 
 % c-sdk {
 
 // Helper function (for use in C program) to initialize this PIO program
-void bdm_delay_program_init(PIO pio, uint sm, uint offset, uint data_pin, float div, bool shift_right, bool autopull, uint pull_threshold) {
+void bdm_delay_program_init(PIO pio, uint sm, uint offset, float div) {
 
     // Sets up state machine and wrap target. This function is automatically
     // generated in bdm.pio.h.
-    pio_sm_config c = bdm_out_program_get_default_config(offset);
-
-    // Connect debug pin to SIDE-SET pin (control with 'side-set' instruction)
-    sm_config_set_sideset_pins(&c, data_pin);
-
-    // Set data pin and clock pin to output
-    // Allow PIO to control GPIO pin (as output)
-    pio_gpio_init(pio, data_pin);
-
-    // Set the pin direction (in PIO)
-    pio_sm_set_consecutive_pindirs(pio, sm, data_pin, 1, true);
+    pio_sm_config c = bdm_delay_program_get_default_config(offset);
     
     // Set the clock divider for the state machine
     sm_config_set_clkdiv(&c, div);
 
-    // Set shift count threshold
-    sm_config_set_out_shift(&c, shift_right, autopull, pull_threshold);
+    // Set shift push count threshold(only for dummy read). Autopush is enabled when 32 bit are shifted in.
+    sm_config_set_in_shift(&c, true, true, 32);
+
+    //Debug
+    // Set data pin and clock pin to output
+    // Allow PIO to control GPIO pin (as output)
+    pio_gpio_init(pio, 5);
+
+    // Connect debug pin to SIDE-SET pin (control with 'side-set' instruction)
+    sm_config_set_sideset_pins(&c, 5);
+
+    // Set the pin direction (in PIO)
+    pio_sm_set_consecutive_pindirs(pio, sm, 5, 1, true);
+    // End Debug
 
     // Load configuration and jump to start of the program
     pio_sm_init(pio, sm, offset, &c);
