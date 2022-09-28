@@ -60,9 +60,7 @@ int main(){
                     // Debug
                     printf("Command: %s\n", token);
 
-                    // Wait for the transmission to complete. 
-                    // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
-                    while(pio_sm_is_rx_fifo_empty(pio, sm));
+                    wait_end_operation(pio, sm);
 
                     // Debug
                     printf("Empty\n");
@@ -94,9 +92,7 @@ int main(){
 
                         delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
 
-                        // Wait for the delay to complete. 
-                        // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
-                        while(pio_sm_is_rx_fifo_empty(pio, sm));
+                        wait_end_operation(pio, sm);
                     }
                     // Debug
                     printf("Read %d bit\n", bit);
@@ -110,9 +106,7 @@ int main(){
                     // Debug
                     printf("Write %d bit: %d\n", bit, data);
 
-                    // Wait for the transmission to complete. 
-                    // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
-                    while(pio_sm_is_rx_fifo_empty(pio, sm));
+                    wait_end_operation(pio, sm);
 
                     // Debug
                     printf("Empty\n");
@@ -127,9 +121,7 @@ int main(){
 
                         delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
 
-                        // Wait for the delay to complete. 
-                        // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
-                        while(pio_sm_is_rx_fifo_empty(pio, sm));
+                        wait_end_operation(pio, sm);
                     }
                 }
                 // If data is invalid, exit from cycle

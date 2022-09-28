@@ -70,6 +70,14 @@ void put_tx_fifo(PIO pio, uint sm, uint data, uint bit)
     pio_sm_put_blocking(pio, sm, data);
 }
 
+
+void wait_end_operation(PIO pio, uint sm)
+{
+    // Wait for the delay to complete. 
+    // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
+    while(pio_sm_is_rx_fifo_empty(pio, sm));
+}
+
 // Actual commands---------------------------------------------------------------
 
 // Tx command
