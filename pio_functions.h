@@ -34,11 +34,14 @@ void put_tx_fifo(PIO pio, uint sm, uint data, uint bit);
 // Put data in TX FIFO
 void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit);
 
-// Wait for a dummy read. Check is RX FIFO and wait until some data are received
+// Wait until some data are received on rx fifo
 void wait_end_operation(PIO pio, uint sm);
 
-// Write bdm-out program to sm, add data to tx FIFO and start program. Clear pio instruction memory first.
+// Write bdm-out program to sm. Add data to tx fifo and start program. Clear pio instruction memory first.
 void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint bit);
+
+// Write bdm-in program to sm and start it. Clear pio instruction memory first.
+void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit);
 
 // Do x cycle delay
 void delay(PIO pio, uint sm, float pio_freq, uint cycles);

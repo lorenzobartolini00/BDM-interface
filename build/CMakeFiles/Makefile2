@@ -64,6 +64,7 @@ preinstall: pico-sdk\preinstall
 # The main recursive "clean" target.
 clean: CMakeFiles\pio-bdm.dir\clean
 clean: CMakeFiles\pio-bdm_bdm-out_pio_h.dir\clean
+clean: CMakeFiles\pio-bdm_bdm-in_pio_h.dir\clean
 clean: CMakeFiles\pio-bdm_bdm-delay_pio_h.dir\clean
 clean: CMakeFiles\ELF2UF2Build.dir\clean
 clean: pico-sdk\clean
@@ -1371,6 +1372,7 @@ pico-sdk\tools\clean:
 
 # All Build rule for target.
 CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-out_pio_h.dir\all
+CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-in_pio_h.dir\all
 CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-delay_pio_h.dir\all
 CMakeFiles\pio-bdm.dir\all: CMakeFiles\ELF2UF2Build.dir\all
 CMakeFiles\pio-bdm.dir\all: pico-sdk\src\rp2_common\boot_stage2\CMakeFiles\bs2_default_padded_checksummed_asm.dir\all
@@ -1381,7 +1383,7 @@ CMakeFiles\pio-bdm.dir\all: pico-sdk\src\rp2_common\boot_stage2\CMakeFiles\bs2_d
 
 # Build rule for subdir invocation for target.
 CMakeFiles\pio-bdm.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Pico\BDM-interface\build\CMakeFiles 95
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Pico\BDM-interface\build\CMakeFiles 96
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Pico\BDM-interface\build\CMakeFiles 0
 .PHONY : CMakeFiles\pio-bdm.dir\rule
@@ -1402,7 +1404,7 @@ CMakeFiles\pio-bdm.dir\clean:
 CMakeFiles\pio-bdm_bdm-out_pio_h.dir\all: pico-sdk\src\rp2_common\cyw43_driver\CMakeFiles\PioasmBuild.dir\all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm_bdm-out_pio_h.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm_bdm-out_pio_h.dir\depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm_bdm-out_pio_h.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm_bdm-out_pio_h.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Pico\BDM-interface\build\CMakeFiles --progress-num=98 "Built target pio-bdm_bdm-out_pio_h"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Pico\BDM-interface\build\CMakeFiles --progress-num=99 "Built target pio-bdm_bdm-out_pio_h"
 .PHONY : CMakeFiles\pio-bdm_bdm-out_pio_h.dir\all
 
 # Build rule for subdir invocation for target.
@@ -1420,6 +1422,32 @@ pio-bdm_bdm-out_pio_h: CMakeFiles\pio-bdm_bdm-out_pio_h.dir\rule
 CMakeFiles\pio-bdm_bdm-out_pio_h.dir\clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm_bdm-out_pio_h.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm_bdm-out_pio_h.dir\clean
 .PHONY : CMakeFiles\pio-bdm_bdm-out_pio_h.dir\clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/pio-bdm_bdm-in_pio_h.dir
+
+# All Build rule for target.
+CMakeFiles\pio-bdm_bdm-in_pio_h.dir\all: pico-sdk\src\rp2_common\cyw43_driver\CMakeFiles\PioasmBuild.dir\all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm_bdm-in_pio_h.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm_bdm-in_pio_h.dir\depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm_bdm-in_pio_h.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm_bdm-in_pio_h.dir\build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Pico\BDM-interface\build\CMakeFiles --progress-num=98 "Built target pio-bdm_bdm-in_pio_h"
+.PHONY : CMakeFiles\pio-bdm_bdm-in_pio_h.dir\all
+
+# Build rule for subdir invocation for target.
+CMakeFiles\pio-bdm_bdm-in_pio_h.dir\rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Pico\BDM-interface\build\CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm_bdm-in_pio_h.dir\all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Pico\BDM-interface\build\CMakeFiles 0
+.PHONY : CMakeFiles\pio-bdm_bdm-in_pio_h.dir\rule
+
+# Convenience name for target.
+pio-bdm_bdm-in_pio_h: CMakeFiles\pio-bdm_bdm-in_pio_h.dir\rule
+.PHONY : pio-bdm_bdm-in_pio_h
+
+# clean rule for target.
+CMakeFiles\pio-bdm_bdm-in_pio_h.dir\clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm_bdm-in_pio_h.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm_bdm-in_pio_h.dir\clean
+.PHONY : CMakeFiles\pio-bdm_bdm-in_pio_h.dir\clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/pio-bdm_bdm-delay_pio_h.dir

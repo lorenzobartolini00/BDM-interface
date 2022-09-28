@@ -132,6 +132,19 @@ pio-bdm_bdm-out_pio_h\fast:
 .PHONY : pio-bdm_bdm-out_pio_h\fast
 
 #=============================================================================
+# Target rules for targets named pio-bdm_bdm-in_pio_h
+
+# Build rule for target.
+pio-bdm_bdm-in_pio_h: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) pio-bdm_bdm-in_pio_h
+.PHONY : pio-bdm_bdm-in_pio_h
+
+# fast build rule for target.
+pio-bdm_bdm-in_pio_h\fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm_bdm-in_pio_h.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm_bdm-in_pio_h.dir\build
+.PHONY : pio-bdm_bdm-in_pio_h\fast
+
+#=============================================================================
 # Target rules for targets named pio-bdm_bdm-delay_pio_h
 
 # Build rule for target.
@@ -1802,6 +1815,7 @@ help:
 	@echo ... cyw43_driver_picow_cyw43_bus_pio_spi_pio_h
 	@echo ... cyw43_firmware_package
 	@echo ... pio-bdm_bdm-delay_pio_h
+	@echo ... pio-bdm_bdm-in_pio_h
 	@echo ... pio-bdm_bdm-out_pio_h
 	@echo ... bs2_default
 	@echo ... pio-bdm

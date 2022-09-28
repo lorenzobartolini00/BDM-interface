@@ -4,6 +4,7 @@
 ; Shift out data on data pin. Stall with pin high. After tx FIFO is filled by system, 
 ; pin goes low, starting the transmission.
 
+    ; nop                          [7]  
 .wrap_target
 bit_loop:
     pull ifempty         side 1         ; pull data from tx fifo to OSR if OSR is "empty". Empty means that the total output shift count has reached its threshold. Stall if tx fifo is empty(block = 1 by default).
@@ -16,7 +17,7 @@ keep_low:
     nop                           
 end_bit:
     nop                  side 1         ; pin BKGD goes high for the last 3 cycles. If was high before, side set operation does not take place        
-    jmp !osre bit_loop                   ; If osr is not empty(osr_count < pull_threshold), go back to bit_loop, otherwise, do dummy read to flag the end of the transmission
+    jmp !osre bit_loop                  ; If osr is not empty(osr_count < pull_threshold), go back to bit_loop, otherwise, do dummy read to flag the end of the transmission
     in null 32                          ; Shift 32 zeros in ISR. Since autopush is enable, data is transferred from ISR to RX FIFO at this very clock cycle
 .wrap
 
@@ -30,14 +31,16 @@ void bdm_out_program_init(PIO pio, uint sm, uint offset, uint data_pin, float di
     // generated in bdm.pio.h.
     pio_sm_config c = bdm_out_program_get_default_config(offset);
 
-    // Connect debug pin to SIDE-SET pin (control with 'side-set' instruction)
+    // Connect pin to SIDE-SET pin (control with 'side-set' instruction)
     sm_config_set_sideset_pins(&c, data_pin);
 
-    // Set data pin to output
+    // Connect pin to SET pin (control with 'set' instruction)
+    sm_config_set_set_pins(&c, data_pin, 1);
+
     // Allow PIO to control GPIO pin (as output)
     pio_gpio_init(pio, data_pin);
 
-    // Set the pin direction (in PIO)
+    // Set the initial pin direction as output (in PIO) 
     pio_sm_set_consecutive_pindirs(pio, sm, data_pin, 1, true);
     
     // Set the clock divider for the state machine

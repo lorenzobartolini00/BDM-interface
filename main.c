@@ -72,11 +72,24 @@ int main(){
                     // If first char is '?', then is input data, otherwise is output
                     if (token[0] == '?' && is_input_data_valid(token))
                     {
-                        // Read data
+                        // Read data from pin and save to rx fifo
+                        uint data;
+                        pio_data_in(pio, sm, PIO_FREQ, bit);
 
+                        // Wait the end of the reception
+                        while(pio_sm_get_rx_fifo_level(pio, sm) < 4);
+
+                        // Stop running PIO program in the state machine
+                        pio_sm_set_enabled(pio, sm, false);
+
+                        // Read data from rx fifo
+                        for(int i = 0; i < 4; i++)
+                        {
+                            data = pio_sm_get_blocking(pio, sm);
+                        }
 
                         // Debug
-                        printf("Read %d bit\n", bit);
+                        printf("Read %d bit: %d\n", bit, data);
                     }
                     else if(is_output_data_valid(token))
                     {
@@ -92,6 +105,8 @@ int main(){
                     // If data is invalid, exit from cycle
                     else
                     {
+                        // Debug
+                        printf("Command is Invalid\n");
                         break;
                     }
                 }
@@ -120,7 +135,6 @@ int main(){
         {
             // Debug
             printf("Command not found\n");
-            break;
         }
     }
 

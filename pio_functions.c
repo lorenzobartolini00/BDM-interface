@@ -1,5 +1,6 @@
 #include "pio_functions.h"
 #include "bdm-out.pio.h"
+#include "bdm-in.pio.h"
 #include "bdm-delay.pio.h"
 
 // Utils------------------------------------------------------
@@ -73,8 +74,9 @@ void put_tx_fifo(PIO pio, uint sm, uint data, uint bit)
 
 void wait_end_operation(PIO pio, uint sm)
 {
-    // Wait for the delay to complete. 
-    // When tx ends, a dummy read is performed and 32 zeros are transferred to RX FIFO.
+    // Wait for an operation to complete. 
+    // When any of the operations end, some data are transferred to rx fifo
+    // (dummy bits in 'delay' and 'tx' operations, actual data in 'rx' operation)
     while(pio_sm_is_rx_fifo_empty(pio, sm));
 }
 
@@ -83,7 +85,7 @@ void wait_end_operation(PIO pio, uint sm)
 // Tx command
 void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
 {
-    // Stop running bdm-out PIO program in the state machine
+    // Stop running PIO program in the state machine
     pio_sm_set_enabled(pio, sm, false);
 
     // Clear instruction memory first
@@ -103,6 +105,31 @@ void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
 
     // Put data in tx fifo
     put_tx_fifo(pio, sm, data, num_bit);
+
+    // Start running bdm-out PIO program in the state machine
+    pio_sm_set_enabled(pio, sm, true);
+}
+
+// Rx command
+void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit)
+{
+    // Stop running PIO program in the state machine
+    pio_sm_set_enabled(pio, sm, false);
+
+    // Clear instruction memory first
+    pio_clear_instruction_memory(pio);
+
+    // Add bdm-out PIO program to PIO instruction memory, SDK will find location and
+    // return with the memory offset of the program.
+    uint offset = pio_add_program(pio, &bdm_in_program);
+
+    // Calculate the PIO clock divider 
+    float div = get_pio_clk_div(pio_freq);
+
+    // Initialize the program using the helper function in our .pio file
+    bdm_in_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PUSH, num_bit);
+
+    pio_sm_clear_fifos(pio, sm);
 
     // Start running bdm-out PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);

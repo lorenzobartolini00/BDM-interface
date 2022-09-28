@@ -3204,6 +3204,7 @@ CMakeFiles\pio-bdm.dir\pio_functions.c.obj: C:\Pico\pico-sdk\src\rp2_common\hard
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: C:\Pico\BDM-interface\config.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: C:\Pico\BDM-interface\commands.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-out.pio.h
+CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-in.pio.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-delay.pio.h
 
 
@@ -3679,5 +3680,7 @@ C:\Pico\BDM-interface\main.c:
 C:\Pico\BDM-interface\pio_functions.c:
 
 bdm-out.pio.h:
+
+bdm-in.pio.h:
 
 bdm-delay.pio.h:

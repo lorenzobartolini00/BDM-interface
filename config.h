@@ -1,6 +1,7 @@
 #define COMMAND_BITS    8
 #define SHIFT_RIGHT     false
 #define AUTO_PULL       false
+#define AUTO_PUSH       false
 #define REG_WIDTH       32
 #define DELAY_CYCLES    16
 
