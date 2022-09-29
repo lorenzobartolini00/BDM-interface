@@ -29,19 +29,22 @@ float get_pio_clk_div(float desired_freq);
 void start_usb_connection(void);
 
 // Put one word in tx fifo
-void put_tx_fifo(PIO pio, uint sm, uint data, uint bit);
+void put_tx_fifo(PIO pio, uint sm, uint data, uint bit, bool shift_right);
 
 // Put data in TX FIFO
-void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit);
+void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit, bool shift_right);
 
 // Wait until some data are received on rx fifo
 void wait_end_operation(PIO pio, uint sm);
 
-// Write bdm-out program to sm. Add data to tx fifo and start program. Clear pio instruction memory first.
+// Stop running sm, clear instruction memory, clear fifos and put tx_data in tx fifo
+uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog);
+
+// Start bdm-out pio program
 void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint bit);
 
-// Write bdm-in program to sm and start it. Clear pio instruction memory first.
+// Start bdm-in pio program
 void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit);
 
-// Do x cycle delay
+// Start bdm-delay pio program
 void delay(PIO pio, uint sm, float pio_freq, uint cycles);

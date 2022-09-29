@@ -4,16 +4,15 @@
 ; Set pin direction to output, then, at the 5th cycle, change pin direction and sample data at 10th cycle.
 ; Then wait till the last cycle(16th) to push data to rx fifo, in order to signal the end of the operation
 
-    set x, 2                            ; Pre-load 3 words in rx fifo, so when the 4th is loaded, the sm stalls
-fill_rx_fifo:
-    in null, 32
-    push
-    jmp x-- fill_rx_fifo
 .wrap_target
+    pull                 side 1         ; Copy tx fifo to OSR. Stall here if tx fifo is empty.
+    out x, 32                           ; Copy OSR to Scratch Register X, which acts like a loop counter
+bit_loop:
     set pindirs, 1       side 0  [3]    ; Set pin to output, set pin low and wait 3 cycles
     set pindirs, 0               [5]    ; Set pin to input and wait 5 cycles
-    in pins, 1                   [3]    ; At 10th cycle sample one bit from pin and store it in ISR and wait 4 cycles
-    push iffull          side 1         ; Push data to RX FIFO once is full(full means that input shift count > push threshold) and stall
+    in pins, 1                   [4]    ; At 10th cycle sample one bit from pin and store it in ISR and wait 4 cycles
+    jmp x-- bit_loop 
+    set pindirs, 1       side 1
 .wrap
 
 % c-sdk {

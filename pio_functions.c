@@ -47,12 +47,12 @@ void start_usb_connection(void)
 }
 
 
-void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit)
+void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit, bool shift_right)
 {
     // Put data in TX FIFO. If shift_right is disabled, align data to the left.
     for(int i = 0; i< length; i++)
     {
-        put_tx_fifo(pio, sm, data[i], bit);
+        put_tx_fifo(pio, sm, data[i], bit, shift_right);
     }
 
     // Debug
@@ -60,9 +60,9 @@ void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit)
 }
 
 
-void put_tx_fifo(PIO pio, uint sm, uint data, uint bit)
+void put_tx_fifo(PIO pio, uint sm, uint data, uint bit, bool shift_right)
 {
-    if(!SHIFT_RIGHT)
+    if(!shift_right)
     {
         uint shift = REG_WIDTH - bit;
         data = data << shift;
@@ -80,70 +80,9 @@ void wait_end_operation(PIO pio, uint sm)
     while(pio_sm_is_rx_fifo_empty(pio, sm));
 }
 
-// Actual commands---------------------------------------------------------------
 
-// Tx command
-void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
+uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog)
 {
-    // Stop running PIO program in the state machine
-    pio_sm_set_enabled(pio, sm, false);
-
-    // Clear instruction memory first
-    pio_clear_instruction_memory(pio);
-
-    // Add bdm-out PIO program to PIO instruction memory, SDK will find location and
-    // return with the memory offset of the program.
-    uint offset = pio_add_program(pio, &bdm_out_program);
-
-    // Calculate the PIO clock divider 
-    float div = get_pio_clk_div(pio_freq);
-
-    // Initialize the program using the helper function in our .pio file
-    bdm_out_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, num_bit);
-
-    pio_sm_clear_fifos(pio, sm);
-
-    // Put data in tx fifo
-    put_tx_fifo(pio, sm, data, num_bit);
-
-    // Start running bdm-out PIO program in the state machine
-    pio_sm_set_enabled(pio, sm, true);
-}
-
-// Rx command
-void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit)
-{
-    // Stop running PIO program in the state machine
-    pio_sm_set_enabled(pio, sm, false);
-
-    // Clear instruction memory first
-    pio_clear_instruction_memory(pio);
-
-    // Add bdm-out PIO program to PIO instruction memory, SDK will find location and
-    // return with the memory offset of the program.
-    uint offset = pio_add_program(pio, &bdm_in_program);
-
-    // Calculate the PIO clock divider 
-    float div = get_pio_clk_div(pio_freq);
-
-    // Initialize the program using the helper function in our .pio file
-    bdm_in_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PUSH, num_bit);
-
-    pio_sm_clear_fifos(pio, sm);
-
-    // Start running bdm-out PIO program in the state machine
-    pio_sm_set_enabled(pio, sm, true);
-}
-
-// Delay
-void delay(PIO pio, uint sm, float pio_freq, uint cycles)
-{
-    // See bdm-delay.pio
-    if ( cycles > 2 )
-    {
-        cycles -= 3;
-    }
-
     // Stop running PIO program in the state machine
     pio_sm_set_enabled(pio, sm, false);
 
@@ -152,7 +91,62 @@ void delay(PIO pio, uint sm, float pio_freq, uint cycles)
 
     // Add bdm-delay PIO program to PIO instruction memory, SDK will find location and
     // return with the memory offset of the program.
-    uint offset = pio_add_program(pio, &bdm_delay_program);
+    uint offset = pio_add_program(pio, pio_prog);
+
+    // Clear eventual data in rx and tx fifos
+    pio_sm_clear_fifos(pio, sm);
+
+    return offset;
+}
+
+// Actual commands---------------------------------------------------------------
+
+// Tx command
+void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
+{
+    // Put in tx fifo num_bit(8 or 16) to read
+    uint offset = pio_init(pio, sm, &bdm_out_program);
+
+    // Calculate the PIO clock divider 
+    float div = get_pio_clk_div(pio_freq);
+
+    // Initialize the program using the helper function in our .pio file
+    bdm_out_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, num_bit);
+
+    // Put data in tx fifo
+    put_tx_fifo(pio, sm, data, num_bit, SHIFT_RIGHT);
+
+    // Start running bdm-out PIO program in the state machine
+    pio_sm_set_enabled(pio, sm, true);
+}
+
+// Rx command
+void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit)
+{
+    // Clear memory and fifos and add program
+    uint offset = pio_init(pio, sm, &bdm_in_program);
+
+    // Calculate the PIO clock divider 
+    float div = get_pio_clk_div(pio_freq);
+
+    // Initialize the program using the helper function in our .pio file
+    bdm_in_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PUSH, num_bit);
+
+    // Put num_bit in tx fifo
+    pio_sm_put_blocking(pio, sm, num_bit - 1);
+
+    // Start running bdm-out PIO program in the state machine
+    pio_sm_set_enabled(pio, sm, true);
+}
+
+// Delay
+void delay(PIO pio, uint sm, float pio_freq, uint cycles)
+{
+    // See bdm-delay.pio for reference
+    cycles = cycles > 2 ? (cycles -3) : cycles;
+
+    // Clear memory and fifos and add program
+    uint offset = pio_init(pio, sm, &bdm_delay_program);
 
     // Calculate the PIO clock divider 
     float div = get_pio_clk_div(pio_freq);
@@ -160,15 +154,9 @@ void delay(PIO pio, uint sm, float pio_freq, uint cycles)
     // Initialize the program using the helper function in our .pio file
     bdm_delay_program_init(pio, sm, offset, div);
 
-    // Clear eventual data in rx fifo, which must be clear before execution(otherwise the system program will not wait for the delay to end)
-    pio_sm_clear_fifos(pio, sm);
-
-    // Put data in tx fifo
+    // Put number of cycles in tx fifo
     pio_sm_put_blocking(pio, sm, cycles);
 
-    // Start running bdm-out PIO program in the state machine
+    // Start running bdm-delay PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
-
-    // Debug
-    printf("Delay\n");
 }

@@ -24,6 +24,9 @@ int main(){
     // Set GPIO to be pulled up
     gpio_pull_up(DATA_PIN);
 
+    // Set GPIO function to PIO_0
+    gpio_set_function(DATA_PIN, GPIO_FUNC_PIO0 );
+
 //------------------------------------------------------------
     while(true)
     {
@@ -76,17 +79,10 @@ int main(){
                         uint data;
                         pio_data_in(pio, sm, PIO_FREQ, bit);
 
-                        // Wait the end of the reception
-                        while(pio_sm_get_rx_fifo_level(pio, sm) < 4);
-
-                        // Stop running PIO program in the state machine
-                        pio_sm_set_enabled(pio, sm, false);
+                        wait_end_operation(pio, sm);
 
                         // Read data from rx fifo
-                        for(int i = 0; i < 4; i++)
-                        {
-                            data = pio_sm_get_blocking(pio, sm);
-                        }
+                        data = pio_sm_get_blocking(pio, sm);
 
                         // Debug
                         printf("Read %d bit: %d\n", bit, data);
@@ -116,6 +112,9 @@ int main(){
                 {
                     // Sleep 500 ms for extra delay between each command
                     sleep_ms(500);
+
+                    // Debug
+                    printf("Delay\n");
 
                     delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
 
