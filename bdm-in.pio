@@ -13,6 +13,7 @@ bit_loop:
     in pins, 1                   [4]    ; At 10th cycle sample one bit from pin and store it in ISR and wait 4 cycles
     jmp x-- bit_loop 
     set pindirs, 1       side 1
+    push                                 ; Push data to RX FIFO
 .wrap
 
 % c-sdk {
