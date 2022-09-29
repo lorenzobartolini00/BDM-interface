@@ -21,11 +21,18 @@ int main(){
     // Get first free state machine in PIO 0
     uint sm = pio_claim_unused_sm(pio, true);
 
-    // Set GPIO to be pulled up
-    gpio_pull_up(DATA_PIN);
+    gpio_set_oeover(DATA_PIN, GPIO_OVERRIDE_HIGH);
 
     // Set GPIO function to PIO_0
     gpio_set_function(DATA_PIN, GPIO_FUNC_PIO0 );
+
+    // Set GPIO to be pulled up
+     gpio_pull_up(DATA_PIN);
+
+     // Transmit command
+    pio_data_out(pio, sm, 0x00, PIO_FREQ, COMMAND_BITS);
+
+    wait_end_operation(pio, sm);
 
 //------------------------------------------------------------
     while(true)

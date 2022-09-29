@@ -3,9 +3,7 @@
 
 ; Shift out data on data pin. Stall with pin high. After tx FIFO is filled by system, 
 ; pin goes low, starting the transmission.
-
-    ;set pindirs, 1
-    ;nop                          [7]  
+ 
 .wrap_target
 bit_loop:
     pull ifempty         side 1         ; pull data from tx fifo to OSR if OSR is "empty". Empty means that the total output shift count has reached its threshold. Stall if tx fifo is empty(block = 1 by default).
