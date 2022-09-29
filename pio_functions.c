@@ -2,6 +2,7 @@
 #include "bdm-out.pio.h"
 #include "bdm-in.pio.h"
 #include "bdm-delay.pio.h"
+#include "bdm-sync.pio.h"
 
 // Utils------------------------------------------------------
 void measure_freqs(void) {
@@ -104,7 +105,7 @@ uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog)
 // Tx command
 void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
 {
-    // Put in tx fifo num_bit(8 or 16) to read
+    // Clear memory and fifos and add program
     uint offset = pio_init(pio, sm, &bdm_out_program);
 
     // Calculate the PIO clock divider 
@@ -159,4 +160,36 @@ void delay(PIO pio, uint sm, float pio_freq, uint cycles)
 
     // Start running bdm-delay PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
+}
+
+// Sync
+float sync(PIO pio, uint sm, float pio_freq)
+{
+    // Clear memory and fifos and add program
+    uint offset = pio_init(pio, sm, &bdm_sync_program);
+
+    // Calculate the PIO clock divider 
+    float div = get_pio_clk_div(pio_freq);
+
+    // Initialize the program using the helper function in our .pio file
+    bdm_sync_program_init(pio, sm, offset, DATA_PIN, div);
+
+    // Start running bdm-delay PIO program in the state machine
+    pio_sm_set_enabled(pio, sm, true);
+
+    // Wait for the target to set the pin low
+    while(pio_sm_get_rx_fifo_level(pio, sm) < 1);
+    absolute_time_t start_time = get_absolute_time();
+
+    // Wait for the target to set the pin high
+    while(pio_sm_get_rx_fifo_level(pio, sm) < 2);
+    absolute_time_t stop_time = get_absolute_time();
+
+    // Get 128*target_period in us
+    uint64_t target_128_period_us = absolute_time_diff_us(start_time, stop_time);
+    // Get target_period in us
+    float target_period_us = (float)target_128_period_us/128;      
+    float target_freq = (1/target_period_us)*MHZ;
+
+    return target_freq;
 }

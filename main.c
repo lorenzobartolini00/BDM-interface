@@ -29,14 +29,24 @@ int main(){
     // Set GPIO to be pulled up
      gpio_pull_up(DATA_PIN);
 
-     // Transmit command
+     // Transmit dummy command
     pio_data_out(pio, sm, 0x00, PIO_FREQ, COMMAND_BITS);
-
     wait_end_operation(pio, sm);
 
 //------------------------------------------------------------
+    // Initial frequency
+    float pio_freq = sync(pio, sm, SYNC_FREQ);
+    uint sync_count = 0;
+
     while(true)
     {
+        // When sync_count reaches SYNC_COUNT_THRESHOLD, perform a SYNC command
+        if(sync_count >= SYNC_COUNT_THRESHOLD)
+        {
+            pio_freq = sync(pio, sm, SYNC_FREQ);
+            sync_count = 0;
+        }
+
         printf("Enter a command: ");
         char user_input[BUFFER_LENGTH + 1];
 
@@ -65,7 +75,7 @@ int main(){
                 if (token_count == 0)
                 {
                     // Transmit command
-                    pio_data_out(pio, sm, comm_hex, PIO_FREQ, COMMAND_BITS);
+                    pio_data_out(pio, sm, comm_hex, pio_freq, COMMAND_BITS);
 
                     // Debug
                     printf("Command: %s\n", token);
@@ -84,7 +94,7 @@ int main(){
                     {
                         // Read data from pin and save to rx fifo
                         uint data;
-                        pio_data_in(pio, sm, PIO_FREQ, bit);
+                        pio_data_in(pio, sm, pio_freq, bit);
 
                         wait_end_operation(pio, sm);
 
@@ -98,7 +108,7 @@ int main(){
                     {
                         // Transmit data
                         uint data = convert_to_hex(token);
-                        pio_data_out(pio, sm, data, PIO_FREQ, bit);
+                        pio_data_out(pio, sm, data, pio_freq, bit);
 
                         // Debug
                         printf("Write %d bit: %d\n", bit, data);
@@ -123,7 +133,7 @@ int main(){
                     // Debug
                     printf("Delay\n");
 
-                    delay(pio, sm, PIO_FREQ, DELAY_CYCLES);
+                    delay(pio, sm, pio_freq, DELAY_CYCLES);
 
                     wait_end_operation(pio, sm);
                 }
@@ -132,6 +142,9 @@ int main(){
                 
                 // Increase token_count to keep track of the command queue
                 token_count++;
+
+                // Increase sync count.
+                sync_count++;
 
                 // Sleep 500 ms for extra delay between each command
                 sleep_ms(500);

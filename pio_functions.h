@@ -48,3 +48,6 @@ void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit);
 
 // Start bdm-delay pio program
 void delay(PIO pio, uint sm, float pio_freq, uint cycles);
+
+// Do the SYNC command
+float sync(PIO pio, uint sm, float pio_freq);

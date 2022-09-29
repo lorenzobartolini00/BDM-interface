@@ -20,3 +20,7 @@
 // Final freq: 16MHZ
 // Test freq: 400Hz
 #define PIO_FREQ        400   //Hz
+#define SYNC_FREQ        400   //Hz
+
+// Consecutive commands before a sync command should take place
+#define SYNC_COUNT_THRESHOLD    5

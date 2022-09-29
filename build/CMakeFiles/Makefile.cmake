@@ -234,6 +234,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/pio-bdm_bdm-out_pio_h.dir/DependInfo.cmake"
   "CMakeFiles/pio-bdm_bdm-in_pio_h.dir/DependInfo.cmake"
   "CMakeFiles/pio-bdm_bdm-delay_pio_h.dir/DependInfo.cmake"
+  "CMakeFiles/pio-bdm_bdm-sync_pio_h.dir/DependInfo.cmake"
   "CMakeFiles/ELF2UF2Build.dir/DependInfo.cmake"
   "pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/DependInfo.cmake"
   "pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/DependInfo.cmake"

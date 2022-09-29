@@ -3206,6 +3206,7 @@ CMakeFiles\pio-bdm.dir\pio_functions.c.obj: C:\Pico\BDM-interface\commands.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-out.pio.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-in.pio.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-delay.pio.h
+CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-sync.pio.h
 
 
 
@@ -3214,6 +3215,8 @@ CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-delay.pio.h
 C:\Pico\pico-sdk\src\rp2040\hardware_regs\include\hardware\regs\tbman.h:
 
 C:\Pico\pico-sdk\src\rp2_common\pico_stdio_usb\include\pico\stdio_usb.h:
+
+bdm-sync.pio.h:
 
 "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\machine\_types.h":
 
