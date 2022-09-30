@@ -7,6 +7,13 @@ int main(){
     // Start usb
     start_usb_connection();
 
+    // Set GPIO function to SIO
+    gpio_init(LED_PIN );
+    gpio_set_dir(LED_PIN, true);
+
+    // Turn on LED when device turn on
+    gpio_put(LED_PIN, true);
+
     // Set sys clock to 64MHz
     set_sys_clock_pll(VCO_FREQ * MHZ, POST_DEV1, POST_DEV2);
 
@@ -21,37 +28,46 @@ int main(){
     // Get first free state machine in PIO 0
     uint sm = pio_claim_unused_sm(pio, true);
 
-    gpio_set_oeover(DATA_PIN, GPIO_OVERRIDE_HIGH);
+    // Turn off LED when it's time to reset MCU
+    gpio_put(LED_PIN, false);
+
+    // Keep the line low at the rising edge of MCU reset
+    gpio_pull_down(DATA_PIN);
+
+    // Sleep for 5 seconds, while MCU enters Active Background Mode
+    sleep_ms(5000);
+
+    // Set GPIO to be pulled up
+    gpio_pull_up(DATA_PIN);
 
     // Set GPIO function to PIO_0
     gpio_set_function(DATA_PIN, GPIO_FUNC_PIO0 );
 
-    // Set GPIO to be pulled up
-     gpio_pull_up(DATA_PIN);
-
-     // Transmit dummy command
+    // Transmit dummy command
     pio_data_out(pio, sm, 0x00, PIO_FREQ, COMMAND_BITS);
     wait_end_operation(pio, sm);
 
+    // Sleep for 1000 ms to abort dummy command
+    sleep_ms(1000);
+
 //------------------------------------------------------------
     // Initial frequency
-    float pio_freq = sync(pio, sm, SYNC_FREQ);
+    float pio_freq = PIO_FREQ;
+    // pio_freq = sync(pio, sm, SYNC_FREQ);
     uint sync_count = 0;
 
     while(true)
     {
-        // When sync_count reaches SYNC_COUNT_THRESHOLD, perform a SYNC command
-        if(sync_count >= SYNC_COUNT_THRESHOLD)
-        {
-            pio_freq = sync(pio, sm, SYNC_FREQ);
-            sync_count = 0;
-        }
+        // Turn on LED when device is ready
+        gpio_put(LED_PIN, true);
 
         printf("Enter a command: ");
         char user_input[BUFFER_LENGTH + 1];
 
         // Ask the user an input string, in order to determine what command to exceute
         get_string(user_input);
+        // Turn off LED when device is running a command
+        gpio_put(LED_PIN, false);
 
         char *token;
         char *next_token;
@@ -66,8 +82,14 @@ int main(){
         // When performing a delay operation
         uint delay_position = get_delay_position(comm_hex);
 
+        // Do a SYNC command when sync_count reaches SYNC_COUNT_THRESHOLD or SYNC command is entered
+        if(is_command_sync(token) || sync_count >= SYNC_COUNT_THRESHOLD)
+        {
+            pio_freq = sync(pio, sm, SYNC_FREQ);
+            sync_count = 0;
+        }
         // Check if the command is valid
-        if(is_command_valid(comm_hex)) 
+        else if(is_command_valid(comm_hex)) 
         {
             // While there are tokens in "commands_string"
             while ((token != NULL))

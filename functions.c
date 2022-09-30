@@ -188,3 +188,9 @@ void get_string(char *buffer)
 
     printf("\n");
 }
+
+
+bool is_command_sync(char *token)
+{
+    return strcmp(token, "SYNC") == 0;
+}

@@ -11,11 +11,11 @@
 ; e.g. if desired_cycles = 16, then 'wait_a_cycle' loop runs 14 times, plus an 'out' and a 'pull' cycle: 16 total cycles.
 
 .wrap_target
-    pull                    side 1        ; Copy tx fifo to OSR. Turn on debug led
+    pull                                  ; Copy tx fifo to OSR. 
     out x, 32                             ; Copy OSR to Scratch Register X, which acts like a loop counter
 wait_a_cycle:
     jmp x-- wait_a_cycle                  ; Loop runs ((desired_cycles - 3) + 1) times. 
-    in null 32              side 0        ; dummy read to signal the end of delay. Turn off debug led
+    in null 32                            ; dummy read to signal the end of delay.
     pull                                  ; Stall here
 .wrap
 
@@ -33,18 +33,6 @@ void bdm_delay_program_init(PIO pio, uint sm, uint offset, float div) {
 
     // Set shift push count threshold(only for dummy read). Autopush is enabled when 32 bit are shifted in.
     sm_config_set_in_shift(&c, true, true, 32);
-
-    //Debug
-    // Set data pin and clock pin to output
-    // Allow PIO to control GPIO pin (as output)
-    pio_gpio_init(pio, 25);
-
-    // Connect debug pin to SIDE-SET pin (control with 'side-set' instruction)
-    sm_config_set_sideset_pins(&c, 25);
-
-    // Set the pin direction (in PIO)
-    pio_sm_set_consecutive_pindirs(pio, sm, 25, 1, true);
-    // End Debug
 
     // Load configuration and jump to start of the program
     pio_sm_init(pio, sm, offset, &c);

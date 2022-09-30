@@ -25,3 +25,6 @@ uint get_delay_position(uint command);
 
 // Get string
 void get_string(char *buffer);
+
+// Check if command is SYNC
+bool is_command_sync(char *token);

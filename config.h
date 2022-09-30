@@ -5,7 +5,8 @@
 #define REG_WIDTH       32
 #define DELAY_CYCLES    16
 
-#define DATA_PIN        5
+#define DATA_PIN        15
+#define LED_PIN         25
 
 #define BUFFER_LENGTH   15
 #define NEW_LINE '\r'
@@ -20,7 +21,7 @@
 // Final freq: 16MHZ
 // Test freq: 400Hz
 #define PIO_FREQ        400   //Hz
-#define SYNC_FREQ        400   //Hz
+#define SYNC_FREQ       400   //Hz
 
 // Consecutive commands before a sync command should take place
 #define SYNC_COUNT_THRESHOLD    5

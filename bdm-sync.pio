@@ -1,11 +1,12 @@
 .program bdm_sync
 .side_set 1 opt
 
-    set pindirs, 1      side 0
-    set x, 30           
+    set pindirs, 1      
+    set x, 30           side 0
 wait_128:
-    jmp x-- wait_128            [3]     ; 1 + 1 + (31 * 4) + 2 = 128 cycles 
-    nop                         [1]     ; Hold pin low for 128 cycles
+    nop                         [1]
+    jmp x-- wait_128            [1]     ; 1 + (31 * 4) + 3 = 128 cycles 
+    nop                         [2]     ; Hold pin low for 128 cycles
     nop                 side 1          ; Speed-up pulse
     set pindirs, 0                      ; Removes all drive to the BKGD pin so it reverts to high impedance
     wait 0 pin 1                        ; Wait for the pin to go low(input mapping is used)
@@ -22,6 +23,9 @@ void bdm_sync_program_init(PIO pio, uint sm, uint offset, uint data_pin, float d
     // Sets up state machine and wrap target. This function is automatically
     // generated in bdm.pio.h.
     pio_sm_config c = bdm_sync_program_get_default_config(offset);
+
+    // Connect pin to SET pin (control with 'set' instruction)
+    sm_config_set_set_pins(&c, data_pin, 1);
 
     // Connect pin to SIDE-SET pin (control with 'side-set' instruction)
     sm_config_set_sideset_pins(&c, data_pin);
