@@ -20,10 +20,10 @@ uint convert_to_hex(char *str);
 // Return whether a command is valid or not
 bool is_command_valid(uint command);
 
-// Determine if delay is present in command string
+// Determine when delay cycles should take place
 uint get_delay_position(uint command);
 
-// Get string
+// Get string from stdio
 void get_string(char *buffer);
 
 // Check if command is SYNC

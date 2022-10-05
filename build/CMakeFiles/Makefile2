@@ -1372,11 +1372,11 @@ pico-sdk\tools\clean:
 # Target rules for target CMakeFiles/pio-bdm.dir
 
 # All Build rule for target.
+CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-out_pio_h.dir\all
 CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-in_pio_h.dir\all
-CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-delay_pio_h.dir\all
 CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-sync_pio_h.dir\all
 CMakeFiles\pio-bdm.dir\all: CMakeFiles\ELF2UF2Build.dir\all
-CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-out_pio_h.dir\all
+CMakeFiles\pio-bdm.dir\all: CMakeFiles\pio-bdm_bdm-delay_pio_h.dir\all
 CMakeFiles\pio-bdm.dir\all: pico-sdk\src\rp2_common\boot_stage2\CMakeFiles\bs2_default_padded_checksummed_asm.dir\all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\pio-bdm.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pio-bdm.dir\build

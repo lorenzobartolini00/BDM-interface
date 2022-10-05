@@ -37,7 +37,7 @@ void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit, bool shif
 // Wait until some data are received on rx fifo
 void wait_end_operation(PIO pio, uint sm);
 
-// Stop running sm, clear instruction memory, clear fifos and put tx_data in tx fifo
+// Stop running sm, clear instruction memory, clear fifos and add new program. Return offset
 uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog);
 
 // Start bdm-out pio program

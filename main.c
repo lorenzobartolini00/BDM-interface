@@ -53,7 +53,7 @@ int main(){
 //------------------------------------------------------------
     // Initial frequency
     float pio_freq = PIO_FREQ;
-    // pio_freq = sync(pio, sm, SYNC_FREQ);
+    pio_freq = sync(pio, sm, SYNC_FREQ);
     uint sync_count = 0;
 
     while(true)
@@ -149,9 +149,6 @@ int main(){
                 // Do a delay if expected
                 if(delay_position != -1 && token_count == delay_position)
                 {
-                    // Sleep 500 ms for extra delay between each command
-                    sleep_ms(500);
-
                     // Debug
                     printf("Delay\n");
 
@@ -167,9 +164,6 @@ int main(){
 
                 // Increase sync count.
                 sync_count++;
-
-                // Sleep 500 ms for extra delay between each command
-                sleep_ms(500);
             }
         }
         else

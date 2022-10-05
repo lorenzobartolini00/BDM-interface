@@ -50,7 +50,7 @@ void start_usb_connection(void)
 
 void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit, bool shift_right)
 {
-    // Put data in TX FIFO. If shift_right is disabled, align data to the left.
+    // Put data in TX FIFO. 
     for(int i = 0; i< length; i++)
     {
         put_tx_fifo(pio, sm, data[i], bit, shift_right);
@@ -63,6 +63,7 @@ void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit, bool shif
 
 void put_tx_fifo(PIO pio, uint sm, uint data, uint bit, bool shift_right)
 {
+    // If shift_right is disabled, align data to the left.
     if(!shift_right)
     {
         uint shift = REG_WIDTH - bit;
@@ -76,7 +77,7 @@ void put_tx_fifo(PIO pio, uint sm, uint data, uint bit, bool shift_right)
 void wait_end_operation(PIO pio, uint sm)
 {
     // Wait for an operation to complete. 
-    // When any of the operations end, some data are transferred to rx fifo
+    // When any operation ends, some data are transferred to rx fifo
     // (dummy bits in 'delay' and 'tx' operations, actual data in 'rx' operation)
     while(pio_sm_is_rx_fifo_empty(pio, sm));
 }
@@ -90,7 +91,7 @@ uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog)
     // Clear instruction memory
     pio_clear_instruction_memory(pio);
 
-    // Add bdm-delay PIO program to PIO instruction memory, SDK will find location and
+    // Add PIO program to PIO instruction memory, SDK will find location and
     // return with the memory offset of the program.
     uint offset = pio_add_program(pio, pio_prog);
 
@@ -188,8 +189,9 @@ float sync(PIO pio, uint sm, float pio_freq)
     // Get 128*target_period in us
     uint64_t target_128_period_us = absolute_time_diff_us(start_time, stop_time);
     // Get target_period in us
-    float target_period_us = (float)target_128_period_us/128;      
-    float target_freq = (1/target_period_us)*MHZ;
+    float target_period_us = (float)target_128_period_us/128;
+    // Target_freq is in HZ
+    float target_freq = (1/target_period_us)*100000;
 
     return target_freq;
 }
