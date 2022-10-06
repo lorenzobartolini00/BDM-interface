@@ -1,32 +1,34 @@
 .program bdm_delay
 .side_set 1 opt
 
-; System writes in tx fifo the following value: (number of delay cycles - 3), 
-; since we have to take into account 3 extra cycles:
-; 1) 'pull'instruction
-; 2) 'out',instruction
-; 3) 'jmp x--(when x = 1)' instruction
-
-; So in the scratch register x is stored the value of (desired_cycles - 3)
-; e.g. if desired_cycles = 16, then 'wait_a_cycle' loop runs 14 times, plus an 'out' and a 'pull' cycle: 16 total cycles.
-
 .wrap_target
-    pull                                  ; Copy tx fifo to OSR. 
-    out x, 32                             ; Copy OSR to Scratch Register X, which acts like a loop counter
-wait_a_cycle:
-    jmp x-- wait_a_cycle                  ; Loop runs ((desired_cycles - 3) + 1) times. 
-    in null 32                            ; dummy read to signal the end of delay.
-    pull                                  ; Stall here
+    pull                                  ; Copy dummy data from tx fifo to OSR. Stall if tx fifo is empty
+    set pindirs, 1      side 1            ; Set pin high
+    nop         [7]                       ; Wait 16 cycles
+    nop         [7]
+    in null, 32
 .wrap
 
 % c-sdk {
 
 // Helper function (for use in C program) to initialize this PIO program
-void bdm_delay_program_init(PIO pio, uint sm, uint offset, float div) {
+void bdm_delay_program_init(PIO pio, uint sm, uint offset, uint data_pin, float div) {
 
     // Sets up state machine and wrap target. This function is automatically
     // generated in bdm.pio.h.
     pio_sm_config c = bdm_delay_program_get_default_config(offset);
+
+    // Allow PIO to control GPIO pin (as output)
+    pio_gpio_init(pio, data_pin);
+
+    // Connect pin to SIDE-SET pin (control with 'side-set' instruction)
+    sm_config_set_sideset_pins(&c, data_pin);
+
+    // Connect pin to SET pin (control with 'set' instruction)
+    sm_config_set_set_pins(&c, data_pin, 1);
+
+    // Set the initial pin direction as output (in PIO) 
+    pio_sm_set_consecutive_pindirs(pio, sm, data_pin, 1, true);
     
     // Set the clock divider for the state machine
     sm_config_set_clkdiv(&c, div);

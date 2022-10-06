@@ -25,3 +25,4 @@
 #define SYNC_FREQ        2000000   //The slowest possible BDC clock(normally the reference oscillator/64) in Hz
 
 #define SYNC_COUNT_THRESHOLD    5   // Consecutive commands before a sync command should take place
+#define AUTO_SYNC   false

@@ -32,10 +32,15 @@ int main(){
     gpio_put(LED_PIN, false);
 
     // Keep the line low at the rising edge of MCU reset
-    gpio_pull_down(DATA_PIN);
+    gpio_init(DATA_PIN );
+    gpio_set_dir(DATA_PIN, true);
+    gpio_put(DATA_PIN, false);
 
     // Sleep for 5 seconds, while MCU enters Active Background Mode
     sleep_ms(5000);
+
+    gpio_put(DATA_PIN, true);
+    gpio_set_dir(DATA_PIN, false);
 
     // Set GPIO to be pulled up
     gpio_pull_up(DATA_PIN);
@@ -48,12 +53,11 @@ int main(){
     wait_end_operation(pio, sm);
 
     // Sleep for 1000 ms to abort dummy command
-    sleep_ms(1000);
+    sleep_ms(5000);
 
 //------------------------------------------------------------
     // Initial frequency
     float pio_freq = PIO_FREQ;
-    pio_freq = sync(pio, sm, SYNC_FREQ);
     uint sync_count = 0;
 
     while(true)
@@ -61,7 +65,7 @@ int main(){
         // Turn on LED when device is ready
         gpio_put(LED_PIN, true);
 
-        printf("Enter a command: ");
+        printf("Frequency: %.2f Hz; Enter a command: ", pio_freq);
         char user_input[BUFFER_LENGTH + 1];
 
         // Ask the user an input string, in order to determine what command to exceute
@@ -82,8 +86,8 @@ int main(){
         // When performing a delay operation
         uint delay_position = get_delay_position(comm_hex);
 
-        // Do a SYNC command when sync_count reaches SYNC_COUNT_THRESHOLD or SYNC command is entered
-        if(is_command_sync(token) || sync_count >= SYNC_COUNT_THRESHOLD)
+        // Do a SYNC command when SYNC command is entered
+        if(is_command_sync(token))
         {
             pio_freq = sync(pio, sm, SYNC_FREQ);
             sync_count = 0;
@@ -91,6 +95,13 @@ int main(){
         // Check if the command is valid
         else if(is_command_valid(comm_hex)) 
         {
+            // Do a SYNC command when sync_count reaches SYNC_COUNT_THRESHOLD
+            if(sync_count >= SYNC_COUNT_THRESHOLD && AUTO_SYNC)
+            {
+                pio_freq = sync(pio, sm, SYNC_FREQ);
+                sync_count = 0;
+            }
+
             // While there are tokens in "commands_string"
             while ((token != NULL))
             {
@@ -152,7 +163,7 @@ int main(){
                     // Debug
                     printf("Delay\n");
 
-                    delay(pio, sm, pio_freq, DELAY_CYCLES);
+                    delay(pio, sm, pio_freq);
 
                     wait_end_operation(pio, sm);
                 }

@@ -1,19 +1,18 @@
 .program bdm_sync
 .side_set 1 opt
 
-    set pindirs, 1      
-    set x, 30           side 0
+    set pindirs, 1                      ; set pin direction to output
+    set x, 30           side 0          ; set loop counter to 30(in order to loop for 31 times)
 wait_128:
     nop                         [1]
     jmp x-- wait_128            [1]     ; 1 + (31 * 4) + 3 = 128 cycles 
     nop                         [2]     ; Hold pin low for 128 cycles
     nop                 side 1          ; Speed-up pulse
     set pindirs, 0                      ; Removes all drive to the BKGD pin so it reverts to high impedance
-    wait 0 pin 1                        ; Wait for the pin to go low(input mapping is used)
-    in null 32                          ; Start timer
-    wait 1 pin 1                        ; Wait for the pin to go back to high
-    in null 32                          ; Stop timer
-
+    wait 0 gpio 15                      ; Wait for the pin to go low(input mapping is used)
+    in null 32                             ; Start timer(copy dummy value from scratch y to isr and trigger autopush)
+    wait 1 gpio 15                      ; Wait for the pin to go back to high
+    in null 32                             ; Stop timer
 
 % c-sdk {
 
@@ -41,6 +40,9 @@ void bdm_sync_program_init(PIO pio, uint sm, uint offset, uint data_pin, float d
     
     // Set the clock divider for the state machine
     sm_config_set_clkdiv(&c, div);
+
+    // Set shift push count threshold.
+    sm_config_set_in_shift(&c, true, true, 32);
 
     // Load configuration and jump to start of the program
     pio_sm_init(pio, sm, offset, &c);

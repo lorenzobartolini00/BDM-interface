@@ -142,11 +142,8 @@ void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit)
 }
 
 // Delay
-void delay(PIO pio, uint sm, float pio_freq, uint cycles)
+void delay(PIO pio, uint sm, float pio_freq)
 {
-    // See bdm-delay.pio for reference
-    cycles = cycles > 2 ? (cycles -3) : cycles;
-
     // Clear memory and fifos and add program
     uint offset = pio_init(pio, sm, &bdm_delay_program);
 
@@ -154,10 +151,10 @@ void delay(PIO pio, uint sm, float pio_freq, uint cycles)
     float div = get_pio_clk_div(pio_freq);
 
     // Initialize the program using the helper function in our .pio file
-    bdm_delay_program_init(pio, sm, offset, div);
+    bdm_delay_program_init(pio, sm, offset, DATA_PIN, div);
 
-    // Put number of cycles in tx fifo
-    pio_sm_put_blocking(pio, sm, cycles);
+    // Put dummy data in tx fifo
+    pio_sm_put_blocking(pio, sm, 0xFF);
 
     // Start running bdm-delay PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
@@ -175,6 +172,9 @@ float sync(PIO pio, uint sm, float pio_freq)
     // Initialize the program using the helper function in our .pio file
     bdm_sync_program_init(pio, sm, offset, DATA_PIN, div);
 
+    // Put a dummy 32 bit value in tx fifo
+    pio_sm_put_blocking(pio, sm, 0xFFFFFFFF);
+
     // Start running bdm-delay PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
 
@@ -191,7 +191,10 @@ float sync(PIO pio, uint sm, float pio_freq)
     // Get target_period in us
     float target_period_us = (float)target_128_period_us/128;
     // Target_freq is in HZ
-    float target_freq = (1/target_period_us)*100000;
+    float target_freq = (1/target_period_us)*1000000;
+
+    // Debug
+    printf("Measured frequency: %.2f Hz\n", target_freq);
 
     return target_freq;
 }
