@@ -38,10 +38,10 @@ next_byte:
     mov x, y                             ; Copy y flag to x, which now contains last operation type(0 -> read, 1 -> write)
     out y, 1                             ; Shift one bit from OSR to y, which now containts current operation type(0 -> read, 1 -> write)
     jmp !x  byte_loop                    ; Jump if x==0: last operation was a read operation, so no delay is needed
-    jmp x!=y  delay              [7]     ; Jump if x != y: since last operation was a write operation, current operation is a read operation and a delay is needed
+    jmp x!=y  delay                      ; Jump if x != y: since last operation was a write operation, current operation is a read operation and a delay is needed
     jmp byte_loop                        ; Last and current operations are both write operations
 delay:
-    nop                          [7]    ; 16 cycles of delay after a write operation
+    nop                          [4]    ; 16 cycles of delay after a write operation
 .wrap
 
 
