@@ -3014,6 +3014,7 @@ CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded
 CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\_locale.h"
 CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\strings.h"
 CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\string.h"
+CMakeFiles\pio-bdm.dir\functions.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\math.h"
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\commands.h
 CMakeFiles\pio-bdm.dir\functions.c.obj: C:\Pico\BDM-interface\config.h
 
@@ -3097,6 +3098,7 @@ CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Tool
 CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\_locale.h"
 CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\strings.h"
 CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\string.h"
+CMakeFiles\pio-bdm.dir\main.c.obj: "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\math.h"
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\BDM-interface\commands.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\BDM-interface\pio_functions.h
 CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\pico-sdk\src\rp2_common\hardware_pll\include\hardware\pll.h
@@ -3203,9 +3205,7 @@ CMakeFiles\pio-bdm.dir\pio_functions.c.obj: C:\Pico\pico-sdk\src\rp2040\hardware
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: C:\Pico\pico-sdk\src\rp2_common\hardware_pio\include\hardware\pio_instructions.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: C:\Pico\BDM-interface\config.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: C:\Pico\BDM-interface\commands.h
-CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-out.pio.h
-CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-in.pio.h
-CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-delay.pio.h
+CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-data.pio.h
 CMakeFiles\pio-bdm.dir\pio_functions.c.obj: bdm-sync.pio.h
 
 
@@ -3343,6 +3343,8 @@ C:\Pico\pico-sdk\lib\tinyusb\src\common\tusb_common.h:
 "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\string.h":
 
 "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\reent.h":
+
+bdm-data.pio.h:
 
 "C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\arm-none-eabi\include\sys\lock.h":
 
@@ -3681,9 +3683,3 @@ C:\Pico\BDM-interface\config.h:
 C:\Pico\BDM-interface\main.c:
 
 C:\Pico\BDM-interface\pio_functions.c:
-
-bdm-out.pio.h:
-
-bdm-in.pio.h:
-
-bdm-delay.pio.h:

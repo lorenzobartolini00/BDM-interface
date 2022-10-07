@@ -48,13 +48,6 @@ int main(){
     // Set GPIO function to PIO_0
     gpio_set_function(DATA_PIN, GPIO_FUNC_PIO0 );
 
-    // Transmit dummy command
-    pio_data_out(pio, sm, 0x00, PIO_FREQ, COMMAND_BITS);
-    wait_end_operation(pio, sm);
-
-    // Sleep for 1000 ms to abort dummy command
-    sleep_ms(5000);
-
 //------------------------------------------------------------
     // Initial frequency
     float pio_freq = PIO_FREQ;
@@ -75,16 +68,12 @@ int main(){
 
         char *token;
         char *next_token;
-        uint token_count = 0;
 
         // Establish string and get the first token:
         token = strtok_r(user_input, ":", &next_token);
 
         // Command code
         uint comm_hex = convert_to_hex(token);
-
-        // When performing a delay operation
-        uint delay_position = get_delay_position(comm_hex);
 
         // Do a SYNC command when SYNC command is entered
         if(is_command_sync(token))
@@ -102,80 +91,104 @@ int main(){
                 sync_count = 0;
             }
 
-            // While there are tokens in "commands_string"
+            uint data[5];      // Contains one byte in each cell; e.g. {E4, FF, FF, 0, 0}. Zero could be real data or dummy data depending on dir array
+            uint dir[5];       // 1 for output data, 0 for input data; e.g. {1,1,0,0} means that the first word is output data, while the second is input data
+
+            uint bit_16[4];      // 1 for 16 bit word, 0 for 8 bit word
+
+            uint word_count = 0;
+            uint byte_count = 0;
+
+            // Decode command string
             while ((token != NULL))
             {
-                if (token_count == 0)
+                uint nibble = strlen(token);
+                uint bit = nibble * 4;
+
+                // Enstablish whether is input data or output data
+                if(token[0] == '?' && is_input_data_valid(token))
                 {
-                    // Transmit command
-                    pio_data_out(pio, sm, comm_hex, pio_freq, COMMAND_BITS);
+                    data[byte_count] = 0;            // No data to transmit(will be ignored)
+                    dir[byte_count] = 0;             // Input value
 
-                    // Debug
-                    printf("Command: %s\n", token);
+                    if(bit == 16)
+                    {
+                        byte_count++;
 
-                    wait_end_operation(pio, sm);
+                        data[byte_count] = 0;            // No data to transmit(will be ignored)
+                        dir[byte_count] = 0;             // Input va
+                    }
+
                 }
+                else if(is_output_data_valid(token))
+                {
+                    uint b1 = nibble2byte(
+                        (uint)hex2int(token[0]),
+                        (uint)hex2int(token[1])
+                    );
+
+                    printf("Data(l8): %d\n", b1);
+
+                    data[byte_count] = b1;      // Data to transmit(lower 8 bit)
+                    dir[byte_count] = 1;        // Output value
+
+                    if(bit == 16)
+                    {
+                        uint b2 = nibble2byte(
+                            (uint)hex2int(token[2]),
+                            (uint)hex2int(token[3])
+                        );
+
+                        printf("Data(u8): %d\n", b2);
+
+                        data[byte_count] = b2;      // Data to transmit(upper 8 bit)
+                        dir[byte_count] = 1;        // Output value
+                    }
+                }
+                // If data is invalid, exit from cycle
                 else
                 {
-                    // Count how many bit in incoming data
-                    uint nibble = strlen(token);
-                    uint bit = nibble * 4;
-
-                    // Check whether is input data or output data
-                    // If first char is '?', then is input data, otherwise is output
-                    if (token[0] == '?' && is_input_data_valid(token))
-                    {
-                        // Read data from pin and save to rx fifo
-                        uint data;
-                        pio_data_in(pio, sm, pio_freq, bit);
-
-                        wait_end_operation(pio, sm);
-
-                        // Read data from rx fifo
-                        data = pio_sm_get_blocking(pio, sm);
-
-                        // Debug
-                        printf("Read %d bit: %d\n", bit, data);
-                    }
-                    else if(is_output_data_valid(token))
-                    {
-                        // Transmit data
-                        uint data = convert_to_hex(token);
-                        pio_data_out(pio, sm, data, pio_freq, bit);
-
-                        // Debug
-                        printf("Write %d bit: %d\n", bit, data);
-
-                        wait_end_operation(pio, sm);
-                    }
-                    // If data is invalid, exit from cycle
-                    else
-                    {
-                        // Debug
-                        printf("Command is Invalid\n");
-                        break;
-                    }
-                }
-
-                // Do a delay if expected
-                if(delay_position != -1 && token_count == delay_position)
-                {
                     // Debug
-                    printf("Delay\n");
-
-                    delay(pio, sm, pio_freq);
-
-                    wait_end_operation(pio, sm);
+                    printf("Command is Invalid\n");
+                    break;
                 }
+
+                // Flag if this word of data is 8 or 16 bit
+                bit_16[word_count] = (bit == 16) ? 1 : 8;    
+
+                // Debug
+                if (word_count == 0)
+                {
+                    printf("Command: %s\n", token);
+                }
+
                 // Acquire next token
                 token = strtok_r(NULL, ":", &next_token);
                 
-                // Increase token_count to keep track of the command queue
-                token_count++;
-
-                // Increase sync count.
-                sync_count++;
+                // Increase token_count and byte_count
+                word_count++;
+                byte_count++;
             }
+
+            // Transmit command/data and receive data
+            do_bdm_command(pio, sm, data, array2dec(dir, byte_count, true), byte_count, pio_freq);
+
+            // Wait the end of the operation
+            sleep_ms(500);
+
+            int i = 0;
+            uint incoming_data[4] = {0, 0, 0, 0};
+            // Read data from rx fifo
+            while(pio_sm_is_rx_fifo_empty(pio, sm) == false)
+            {
+                incoming_data[i] = pio_sm_get(pio, sm);
+                i++;
+
+                printf("Byte %d: %d\n", i, (int)incoming_data[i]);
+            }
+
+            // Increase sync count
+            sync_count++;
         }
         else
         {

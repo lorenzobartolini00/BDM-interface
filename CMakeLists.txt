@@ -22,13 +22,7 @@ add_executable(${PROJECT_NAME}
 
 # Create C header file with the name <pio program>.pio.h
 pico_generate_pio_header(${PROJECT_NAME}  
-        ${CMAKE_CURRENT_LIST_DIR}/bdm-out.pio
-)
-pico_generate_pio_header(${PROJECT_NAME}  
-        ${CMAKE_CURRENT_LIST_DIR}/bdm-in.pio
-)
-pico_generate_pio_header(${PROJECT_NAME}  
-        ${CMAKE_CURRENT_LIST_DIR}/bdm-delay.pio
+        ${CMAKE_CURRENT_LIST_DIR}/bdm-data.pio
 )
 pico_generate_pio_header(${PROJECT_NAME}  
         ${CMAKE_CURRENT_LIST_DIR}/bdm-sync.pio

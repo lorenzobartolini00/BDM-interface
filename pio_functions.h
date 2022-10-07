@@ -40,14 +40,8 @@ void wait_end_operation(PIO pio, uint sm);
 // Stop running sm, clear instruction memory, clear fifos and add new program. Return offset
 uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog);
 
-// Start bdm-out pio program
-void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint bit);
-
-// Start bdm-in pio program
-void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit);
-
-// Start bdm-delay pio program
-void delay(PIO pio, uint sm, float pio_freq);
+// Start bdm-data pio program
+void do_bdm_command(PIO pio, uint sm, uint *data, uint dir, uint byte_count, float pio_freq);
 
 // Do the SYNC command
 float sync(PIO pio, uint sm, float pio_freq);

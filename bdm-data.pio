@@ -1,0 +1,84 @@
+.program bdm_data
+.side_set 1 opt
+    
+
+    pull                side 1          ; Pull dir array to OSR. 1 -> output; 0 -> input
+    out y, 1                            ; Shift one bit from OSR to y.
+.wrap_target
+byte_loop:   
+    set pindirs, 1                      ; Set output pin direction
+    mov x, osr                          ; Copy OSR, which containts dir array, to scratch x
+    pull                 side 1         ; Pull number of bit from tx fifo. Stall if tx fifo is empty
+    jmp !y rx_loop                      ; Jump to rx if y = 0, otherwise do tx
+
+tx_loop:
+    set pindirs, 1
+    out y,  1            side 0  [1]    ; Shift one bit from OSR to scratch y. Pin BKGD goes low for 5 cycles
+    jmp !y  keep_low             [2]    ; If scratch y = 0, jump to keep_low
+    nop                  side 1  [6]    ; If 1 is transmitted, pin BKGD goes back to high state after 4 cycles
+    jmp     end_tx_loop                         
+keep_low:
+    nop                          [7]    ; If 0 is transmitted, hold pin BKGD low for 9 cycles                      
+end_tx_loop:                            ; pin BKGD goes high for the last 3 cycles. If was high before, side set operation does not take place        
+    jmp !osre tx_loop   side 1   [1]    ; If osr is not empty(osr_count < pull_threshold), go back to tx_loop
+    set y, 1                            ; Set scratch y to flag a write operation
+    jmp next_byte
+ 
+rx_loop:
+    set pindirs, 1              
+    out y, 1            side 0   [3]    ; Shift out 1 dummy bit from OSR(acts as loop counter) and wait 4 cycles
+    set pindirs, 0               [5]    ; Set pin to input and wait 5 cycles
+    in pins, 1                   [2]    ; At 10th cycle sample one bit from pin and store it in ISR and wait 4 cycles             
+    jmp !osre rx_loop   side 1   [1]    ; If osr is not empty(osr_count < pull_threshold), go back to tx_loop
+    push                side 1          ; Push data to RX FIFO
+    set y, 0                            ; Clear scratch y to flag a write operation
+
+next_byte:
+    mov osr, x                           ; Copy scratch x, which contains dir array, to OSR
+    mov x, y                             ; Copy y flag to x, which now contains last operation type(0 -> read, 1 -> write)
+    out y, 1                             ; Shift one bit from OSR to y, which now containts current operation type(0 -> read, 1 -> write)
+    jmp !x  byte_loop                    ; Jump if x==0: last operation was a read operation, so no delay is needed
+    jmp x!=y  delay              [7]     ; Jump if x != y: since last operation was a write operation, current operation is a read operation and a delay is needed
+    jmp byte_loop                        ; Last and current operations are both write operations
+delay:
+    nop                          [7]    ; 16 cycles of delay after a write operation
+.wrap
+
+
+% c-sdk {
+// Helper function (for use in C program) to initialize this PIO program
+void bdm_data_program_init(PIO pio, uint sm, uint offset, uint data_pin, float div, bool shift_right, bool autopull, bool autopush, uint pull_threshold, uint push_threshold) {
+
+    // Sets up state machine and wrap target. This function is automatically
+    // generated in bdm.pio.h.
+    pio_sm_config c = bdm_data_program_get_default_config(offset);
+
+    // Connect pin to SIDE-SET pin (control with 'side-set' instruction)
+    sm_config_set_sideset_pins(&c, data_pin);
+
+    // Connect pin to IN pin (control with 'in' instruction)
+    sm_config_set_in_pins(&c, data_pin);
+
+    // Connect pin to SET pin (control with 'set' instruction)
+    sm_config_set_set_pins(&c, data_pin, 1);
+
+    // Allow PIO to control GPIO pin (as output)
+    pio_gpio_init(pio, data_pin);
+
+    // Set the initial pin direction as output (in PIO) 
+    pio_sm_set_consecutive_pindirs(pio, sm, data_pin, 1, true);
+    
+    // Set the clock divider for the state machine
+    sm_config_set_clkdiv(&c, div);
+
+    // Set shift pull count threshold
+    sm_config_set_out_shift(&c, shift_right, autopull, pull_threshold);
+
+    // Set shift push count threshold
+    sm_config_set_in_shift(&c, true, autopush, push_threshold);
+
+    // Load configuration and jump to start of the program
+    pio_sm_init(pio, sm, offset, &c);
+}
+
+%}

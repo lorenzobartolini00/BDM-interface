@@ -77,6 +77,40 @@ uint convert_to_hex(char *str)
 }
 
 
+int hex2int(char ch)
+{
+    if (ch >= '0' && ch <= '9')
+        return ch - '0';
+    if (ch >= 'A' && ch <= 'F')
+        return ch - 'A' + 10;
+    if (ch >= 'a' && ch <= 'f')
+        return ch - 'a' + 10;
+    return -1;
+}
+
+
+uint nibble2byte(uint nibble_1, uint nibble_2)
+{
+    return nibble_1*16 + nibble_2;
+}
+
+
+uint array2dec(uint *array, uint length, bool reversed)
+{
+    uint result = 0;
+    uint index = 0;
+
+    for(int i=0; i< length; i++)
+    {
+        index = reversed ? (length - (i + 1)) : i;
+
+        result += array[index]*(uint)pow(2.0, (double)index);
+    }
+
+    return result;
+}
+
+
 bool is_command_valid(uint command)
 {
     switch(command)
@@ -115,53 +149,6 @@ bool is_command_valid(uint command)
         case 0xC2: return true; break;
 
         default: return false; break;
-    }
-}
-
-
-uint get_delay_position(uint command)
-{
-    // -1 -> No delay
-    // 0 -> after the command, e.g. "D5/d" or "68/d/RD"
-    // 1 -> after the first token, e.g. "48/WD/d"
-    // 2 -> after the second token, e.g. "C0/AAAA/WD/d"
-    
-    switch(command)
-    {
-        case 0xD5: return 0; break;
-        case 0xD6: return 0; break;
-        case 0x90: return 0; break;
-        case 0x08: return 0; break;
-        case 0x10: return 0; break;
-        case 0x18: return 0; break;
-
-        case 0x68: return 0; break;
-        case 0x69: return 0; break;
-        case 0x6B: return 0; break;
-        case 0x6C: return 0; break;
-        case 0x6F: return 0; break;
-        case 0x70: return 0; break;
-        case 0x71: return 0; break;
-
-        case 0x48: return 1; break;
-        case 0x49: return 1; break;
-        case 0x4B: return 1; break;
-        case 0x4C: return 1; break;
-        case 0x4F: return 1; break;
-        case 0x50: return 1; break;
-        case 0x51: return 1; break;
-
-        case 0xE4: return -1; break;
-        case 0xC4: return -1; break;
-        case 0xE0: return 1; break;
-        case 0xE1: return 1; break;
-        case 0xE8: return -1; break;
-        case 0xC0: return 2; break;
-        case 0xC1: return 2; break;
-        case 0xE2: return -1; break;
-        case 0xC2: return -1; break;
-
-        default: return -1; break;
     }
 }
 

@@ -26,12 +26,12 @@ The CXX compiler identification is MSVC, found in "C:/Pico/BDM-interface/build/p
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: C:/Pico/BDM-interface/build/pioasm/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake -f Makefile /nologo cmTC_0ba33\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_0ba33.dir\build.make /nologo -L                  CMakeFiles\cmTC_0ba33.dir\build
-Building CXX object CMakeFiles/cmTC_0ba33.dir/CMakeCXXCompilerABI.cpp.obj
-	"C:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_0ba33.dir\CMakeCXXCompilerABI.cpp.obj.d --working-dir=C:\Pico\BDM-interface\build\pioasm\CMakeFiles\CMakeTmp --filter-prefix="Nota: file incluso  C:" -- C:\PROGRA~2\MIB055~1\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @C:\Users\Lori\AppData\Local\Temp\nm484B.tmp
+Run Build Command(s):nmake -f Makefile /nologo cmTC_8ff4f\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_8ff4f.dir\build.make /nologo -L                  CMakeFiles\cmTC_8ff4f.dir\build
+Building CXX object CMakeFiles/cmTC_8ff4f.dir/CMakeCXXCompilerABI.cpp.obj
+	"C:\Program Files\CMake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_8ff4f.dir\CMakeCXXCompilerABI.cpp.obj.d --working-dir=C:\Pico\BDM-interface\build\pioasm\CMakeFiles\CMakeTmp --filter-prefix="Nota: file incluso  C:" -- C:\PROGRA~2\MIB055~1\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\cl.exe @C:\Users\Lori\AppData\Local\Temp\nm6010.tmp
 CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_0ba33.exe
-	"C:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_0ba33.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MIB055~1\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_0ba33.dir\objects1.rsp @C:\Users\Lori\AppData\Local\Temp\nm49E2.tmp
+Linking CXX executable cmTC_8ff4f.exe
+	"C:\Program Files\CMake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_8ff4f.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100190~1.0\x86\mt.exe --manifests -- C:\PROGRA~2\MIB055~1\2019\COMMUN~1\VC\Tools\MSVC\1427~1.291\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_8ff4f.dir\objects1.rsp @C:\Users\Lori\AppData\Local\Temp\nm61A8.tmp
 
 
 

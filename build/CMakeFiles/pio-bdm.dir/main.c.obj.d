@@ -77,6 +77,7 @@ CMakeFiles\pio-bdm.dir\main.c.obj: C:\Pico\BDM-interface\main.c \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\_locale.h \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\strings.h \
  c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\sys\string.h \
+ c:\progra~2\gnuarm~1\102021~1.10\arm-none-eabi\include\math.h \
  C:\Pico\BDM-interface\commands.h C:\Pico\BDM-interface\pio_functions.h \
  C:\Pico\pico-sdk\src\rp2_common\hardware_pll\include/hardware/pll.h \
  C:\Pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/pll.h \

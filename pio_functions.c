@@ -1,7 +1,5 @@
 #include "pio_functions.h"
-#include "bdm-out.pio.h"
-#include "bdm-in.pio.h"
-#include "bdm-delay.pio.h"
+#include "bdm-data.pio.h"
 #include "bdm-sync.pio.h"
 
 // Utils------------------------------------------------------
@@ -55,9 +53,6 @@ void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit, bool shif
     {
         put_tx_fifo(pio, sm, data[i], bit, shift_right);
     }
-
-    // Debug
-    printf("TX FIFO filled\n");
 }
 
 
@@ -103,60 +98,25 @@ uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog)
 
 // Actual commands---------------------------------------------------------------
 
-// Tx command
-void pio_data_out(PIO pio, uint sm, uint data, float pio_freq, uint num_bit)
+// Data command
+void do_bdm_command(PIO pio, uint sm, uint *data, uint dir, uint byte_count, float pio_freq)
 {
     // Clear memory and fifos and add program
-    uint offset = pio_init(pio, sm, &bdm_out_program);
+    uint offset = pio_init(pio, sm, &bdm_data_program);
 
     // Calculate the PIO clock divider 
     float div = get_pio_clk_div(pio_freq);
 
     // Initialize the program using the helper function in our .pio file
-    bdm_out_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, num_bit);
+    bdm_data_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, AUTO_PUSH, 8, 8);
 
-    // Put data in tx fifo
-    put_tx_fifo(pio, sm, data, num_bit, SHIFT_RIGHT);
+    // Put data in tx fifo:
+    // 1) dir array
+    put_tx_fifo(pio, sm, dir, byte_count, SHIFT_RIGHT);
+    // 2) data(either input or output)
+    fill_tx_fifo(pio, sm, data, byte_count, 8, SHIFT_RIGHT);
 
-    // Start running bdm-out PIO program in the state machine
-    pio_sm_set_enabled(pio, sm, true);
-}
-
-// Rx command
-void pio_data_in(PIO pio, uint sm, float pio_freq, uint num_bit)
-{
-    // Clear memory and fifos and add program
-    uint offset = pio_init(pio, sm, &bdm_in_program);
-
-    // Calculate the PIO clock divider 
-    float div = get_pio_clk_div(pio_freq);
-
-    // Initialize the program using the helper function in our .pio file
-    bdm_in_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PUSH, num_bit);
-
-    // Put num_bit in tx fifo
-    pio_sm_put_blocking(pio, sm, num_bit - 1);
-
-    // Start running bdm-out PIO program in the state machine
-    pio_sm_set_enabled(pio, sm, true);
-}
-
-// Delay
-void delay(PIO pio, uint sm, float pio_freq)
-{
-    // Clear memory and fifos and add program
-    uint offset = pio_init(pio, sm, &bdm_delay_program);
-
-    // Calculate the PIO clock divider 
-    float div = get_pio_clk_div(pio_freq);
-
-    // Initialize the program using the helper function in our .pio file
-    bdm_delay_program_init(pio, sm, offset, DATA_PIN, div);
-
-    // Put dummy data in tx fifo
-    pio_sm_put_blocking(pio, sm, 0xFF);
-
-    // Start running bdm-delay PIO program in the state machine
+    // Start running bdm-data PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
 }
 
