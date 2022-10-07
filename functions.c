@@ -104,7 +104,7 @@ uint array2dec(uint *array, uint length, bool reversed)
     {
         index = reversed ? (length - (i + 1)) : i;
 
-        result += array[index]*(uint)pow(2.0, (double)index);
+        result += array[i]<<index;
     }
 
     return result;
