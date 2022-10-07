@@ -114,10 +114,15 @@ void do_bdm_command(PIO pio, uint sm, uint *data, uint dir, uint byte_count, flo
     // 1) dir array
     put_tx_fifo(pio, sm, dir, byte_count, SHIFT_RIGHT);
     // 2) data(either input or output)
-    fill_tx_fifo(pio, sm, data, byte_count, 8, SHIFT_RIGHT);
+    fill_tx_fifo(pio, sm, data, byte_count < FIFO_WIDTH ? byte_count : FIFO_WIDTH-1, 8, SHIFT_RIGHT);
 
     // Start running bdm-data PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
+
+    if(byte_count > FIFO_WIDTH)
+    {
+        fill_tx_fifo(pio, sm, data+FIFO_WIDTH, byte_count - FIFO_WIDTH, 8, SHIFT_RIGHT);
+    }
 }
 
 // Sync

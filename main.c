@@ -94,9 +94,6 @@ int main(){
             uint data[5];      // Contains one byte in each cell; e.g. {E4, FF, FF, 0, 0}. Zero could be real data or dummy data depending on dir array
             uint dir[5];       // 1 for output data, 0 for input data; e.g. {1,1,0,0} means that the first word is output data, while the second is input data
 
-            uint bit_16[4];      // 1 for 16 bit word, 0 for 8 bit word
-
-            uint word_count = 0;
             uint byte_count = 0;
 
             // Decode command string
@@ -123,8 +120,8 @@ int main(){
                 else if(is_output_data_valid(token))
                 {
                     uint b1 = nibble2byte(
-                        (uint)hex2int(token[0]),
-                        (uint)hex2int(token[1])
+                        (uint)hex2int(token[nibble - 1]),
+                        (uint)hex2int(token[nibble - 2])
                     );
 
                     printf("Data(l8): %d\n", b1);
@@ -134,9 +131,11 @@ int main(){
 
                     if(bit == 16)
                     {
+                        byte_count++;
+
                         uint b2 = nibble2byte(
-                            (uint)hex2int(token[2]),
-                            (uint)hex2int(token[3])
+                            (uint)hex2int(token[nibble - 3]),
+                            (uint)hex2int(token[nibble - 4])
                         );
 
                         printf("Data(u8): %d\n", b2);
@@ -153,20 +152,10 @@ int main(){
                     break;
                 }
 
-                // Flag if this word of data is 8 or 16 bit
-                bit_16[word_count] = (bit == 16) ? 1 : 8;    
-
-                // Debug
-                if (word_count == 0)
-                {
-                    printf("Command: %s\n", token);
-                }
-
                 // Acquire next token
                 token = strtok_r(NULL, ":", &next_token);
                 
                 // Increase token_count and byte_count
-                word_count++;
                 byte_count++;
             }
 

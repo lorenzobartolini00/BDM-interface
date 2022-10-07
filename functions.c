@@ -91,7 +91,7 @@ int hex2int(char ch)
 
 uint nibble2byte(uint nibble_1, uint nibble_2)
 {
-    return nibble_1*16 + nibble_2;
+    return nibble_1 + nibble_2*16;
 }
 
 

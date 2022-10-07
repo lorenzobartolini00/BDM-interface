@@ -4,6 +4,7 @@
 #define AUTO_PUSH       false   // Whehter autopush is enabled
 #define REG_WIDTH       32      // Max number of bit of the registers
 #define DELAY_CYCLES    16      // Cycle of delay before a write operation or after a read operation
+#define FIFO_WIDTH   4
 
 #define DATA_PIN        15      // BKGD pin 
 #define LED_PIN         25      // LED pin
