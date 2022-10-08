@@ -8,6 +8,7 @@
         "pio_functions.h": "c",
         "functions.h": "c",
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "claim.h": "c"
     }
 }

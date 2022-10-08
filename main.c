@@ -91,10 +91,9 @@ int main(){
                 sync_count = 0;
             }
 
-            uint data[5];      // Contains one byte in each cell; e.g. {E4, FF, FF, 0, 0}. Zero could be real data or dummy data depending on dir array
-            uint dir[5];       // 1 for output data, 0 for input data; e.g. {1,1,0,0} means that the first word is output data, while the second is input data
-
-            uint byte_count = 0;
+            uint data = 0;
+            uint tx_bit_count = 0;
+            uint rx_bit_count = 0;
 
             // Decode command string
             while ((token != NULL))
@@ -105,44 +104,13 @@ int main(){
                 // Enstablish whether is input data or output data
                 if(token[0] == '?' && is_input_data_valid(token))
                 {
-                    data[byte_count] = 0;            // No data to transmit(will be ignored)
-                    dir[byte_count] = 0;             // Input value
-
-                    if(bit == 16)
-                    {
-                        byte_count++;
-
-                        data[byte_count] = 0;            // No data to transmit(will be ignored)
-                        dir[byte_count] = 0;             // Input va
-                    }
-
+                    rx_bit_count += bit;
                 }
                 else if(is_output_data_valid(token))
                 {
-                    uint b1 = nibble2byte(
-                        (uint)hex2int(token[nibble - 1]),
-                        (uint)hex2int(token[nibble - 2])
-                    );
+                    data = convert_to_hex(token) + (data << bit);
 
-                    printf("Data(l8): %d\n", b1);
-
-                    data[byte_count] = b1;      // Data to transmit(lower 8 bit)
-                    dir[byte_count] = 1;        // Output value
-
-                    if(bit == 16)
-                    {
-                        byte_count++;
-
-                        uint b2 = nibble2byte(
-                            (uint)hex2int(token[nibble - 3]),
-                            (uint)hex2int(token[nibble - 4])
-                        );
-
-                        printf("Data(u8): %d\n", b2);
-
-                        data[byte_count] = b2;      // Data to transmit(upper 8 bit)
-                        dir[byte_count] = 1;        // Output value
-                    }
+                    tx_bit_count += bit;
                 }
                 // If data is invalid, exit from cycle
                 else
@@ -154,26 +122,22 @@ int main(){
 
                 // Acquire next token
                 token = strtok_r(NULL, ":", &next_token);
-                
-                // Increase token_count and byte_count
-                byte_count++;
             }
 
+            printf("Tx data: %08X; tx bit count: %d\n", data, tx_bit_count);
+
             // Transmit command/data and receive data
-            do_bdm_command(pio, sm, data, array2dec(dir, byte_count, true), byte_count, pio_freq);
+            do_bdm_command(pio, sm, data, tx_bit_count, rx_bit_count, pio_freq);
 
             // Wait the end of the operation
-            sleep_ms(500);
+            wait_end_operation(pio, sm);
 
-            int i = 0;
-            uint incoming_data[4] = {0, 0, 0, 0};
+            uint incoming_data;
             // Read data from rx fifo
-            while(pio_sm_is_rx_fifo_empty(pio, sm) == false)
+            if(!pio_sm_is_rx_fifo_empty(pio, sm))
             {
-                incoming_data[i] = pio_sm_get(pio, sm);
-                i++;
-
-                printf("Byte %d: %d\n", i, (int)incoming_data[i]);
+                incoming_data = pio_sm_get(pio, sm);
+                printf("Rx data: %08X\n", incoming_data);
             }
 
             // Increase sync count

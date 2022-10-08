@@ -41,7 +41,7 @@ void wait_end_operation(PIO pio, uint sm);
 uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog);
 
 // Start bdm-data pio program
-void do_bdm_command(PIO pio, uint sm, uint *data, uint dir, uint byte_count, float pio_freq);
+void do_bdm_command(PIO pio, uint sm, uint data, uint tx_bit, uint rx_bit, float pio_freq);
 
 // Do the SYNC command
 float sync(PIO pio, uint sm, float pio_freq);

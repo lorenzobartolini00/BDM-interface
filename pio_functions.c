@@ -1,6 +1,7 @@
 #include "pio_functions.h"
 #include "bdm-data.pio.h"
 #include "bdm-sync.pio.h"
+#include "hardware/claim.h"
 
 // Utils------------------------------------------------------
 void measure_freqs(void) {
@@ -96,10 +97,17 @@ uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog)
     return offset;
 }
 
+void pio_add_instr(PIO pio, uint instr, uint offset)
+{
+    uint32_t save = hw_claim_lock();
+    pio->instr_mem[offset] = instr;
+    hw_claim_unlock(save);
+}
+
 // Actual commands---------------------------------------------------------------
 
 // Data command
-void do_bdm_command(PIO pio, uint sm, uint *data, uint dir, uint byte_count, float pio_freq)
+void do_bdm_command(PIO pio, uint sm, uint data, uint tx_bit, uint rx_bit, float pio_freq)
 {
     // Clear memory and fifos and add program
     uint offset = pio_init(pio, sm, &bdm_data_program);
@@ -108,21 +116,18 @@ void do_bdm_command(PIO pio, uint sm, uint *data, uint dir, uint byte_count, flo
     float div = get_pio_clk_div(pio_freq);
 
     // Initialize the program using the helper function in our .pio file
-    bdm_data_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, AUTO_PUSH, 8, 8);
+    bdm_data_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, AUTO_PUSH, tx_bit, rx_bit);
 
     // Put data in tx fifo:
-    // 1) dir array
-    put_tx_fifo(pio, sm, dir, byte_count, SHIFT_RIGHT);
-    // 2) data(either input or output)
-    fill_tx_fifo(pio, sm, data, byte_count < FIFO_WIDTH ? byte_count : FIFO_WIDTH-1, 8, SHIFT_RIGHT);
+    put_tx_fifo(pio, sm, data, tx_bit, SHIFT_RIGHT);
+
+    // Set scratch x register by change pio instruction memory
+    uint instr = pio_encode_set(pio_x, rx_bit);
+    // pio_add_instr(pio, instr, 0);
+    pio_sm_exec(pio, sm, instr);
 
     // Start running bdm-data PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
-
-    if(byte_count > FIFO_WIDTH)
-    {
-        fill_tx_fifo(pio, sm, data+FIFO_WIDTH, byte_count - FIFO_WIDTH, 8, SHIFT_RIGHT);
-    }
 }
 
 // Sync
