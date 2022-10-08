@@ -3,7 +3,7 @@
 
 .wrap_target    
 start:
-    ;set x, 0                           ; Set x as loop counter. X indicates number of bit to read
+    set x, 0                           ; Set x as loop counter. X indicates number of bit to read
     pull                side 1          ; Pull data from tx fifo(could be 8, 16, 24 or 32 bit). Stall here if tx fifo is empty
 
 tx_loop:

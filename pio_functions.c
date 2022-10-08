@@ -123,8 +123,8 @@ void do_bdm_command(PIO pio, uint sm, uint data, uint tx_bit, uint rx_bit, float
 
     // Set scratch x register by change pio instruction memory
     uint instr = pio_encode_set(pio_x, rx_bit);
-    // pio_add_instr(pio, instr, 0);
-    pio_sm_exec(pio, sm, instr);
+    pio_add_instr(pio, instr, offset + 0);
+    // pio_sm_exec(pio, sm, instr);
 
     // Start running bdm-data PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
