@@ -145,6 +145,7 @@ void do_bdm_command(PIO pio, uint sm, uint data, uint tx_bit, uint rx_bit, uint 
     put_tx_fifo(pio, sm, data, tx_bit, SHIFT_RIGHT);
 }
 
+
 // Sync
 float sync(PIO pio, uint sm, float pio_freq)
 {
@@ -157,29 +158,22 @@ float sync(PIO pio, uint sm, float pio_freq)
     // Initialize the program using the helper function in our .pio file
     bdm_sync_program_init(pio, sm, offset, DATA_PIN, div);
 
-    // Put a dummy 32 bit value in tx fifo
-    pio_sm_put_blocking(pio, sm, 0xFFFFFFFF);
-
     // Start running bdm-delay PIO program in the state machine
     pio_sm_set_enabled(pio, sm, true);
 
-    // Wait for the target to set the pin low
-    while(pio_sm_get_rx_fifo_level(pio, sm) < 1);
-    absolute_time_t start_time = get_absolute_time();
+    // Wait for the sm to push data in rx fifo
+    uint ticks = pio_sm_get_blocking(pio, sm);
 
-    // Wait for the target to set the pin high
-    while(pio_sm_get_rx_fifo_level(pio, sm) < 2);
-    absolute_time_t stop_time = get_absolute_time();
-
-    // Get 128*target_period in us
-    uint64_t target_128_period_us = absolute_time_diff_us(start_time, stop_time);
-    // Get target_period in us
-    float target_period_us = (float)target_128_period_us/128;
-    // Target_freq is in HZ
-    float target_freq = (1/target_period_us)*1000000;
+    // 1 "tick" corresponds to 2 pio instruction cycles, since state machine increment "tick" every 2 instruction cycles
+    // T_measured = ticks * T_tick, where T_tick = 2 * T_pio = 2 * (1/F_pio) = 2 * (1/2MHZ) = 1us.
+    // T_measured corresponds to 128 MCU clock cycles, so T_MCU = T_measured / 128
+    // Finally F_MCU = 1/T_MCU = (1/T_measured) * 128 
+    float T_measured_us = (float)(ticks * 2 * SYNC_PERIOD);
+    // F_MCU is in HZ
+    float F_MCU = (1/T_measured_us) * 128 * MHZ;
 
     // Debug
-    printf("Measured frequency: %.2f Hz\n", target_freq);
+    printf("Measured frequency: %.2f Hz\n", F_MCU);
 
-    return target_freq;
+    return F_MCU;
 }
