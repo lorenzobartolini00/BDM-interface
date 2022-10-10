@@ -3,8 +3,8 @@
 
 .wrap_target    
 start:
-    set x, 0                           ; Set x as loop counter. X indicates number of bit to read
     pull                side 1          ; Pull data from tx fifo(could be 8, 16, 24 or 32 bit). Stall here if tx fifo is empty
+    set x, 0                            ; Set x as loop counter. X indicates number of bit to read
 
 tx_loop:
     set pindirs, 1
@@ -21,7 +21,9 @@ end_tx_loop:                            ; pin BKGD goes high for the last 3 cycl
 
 delay:
     nop                          [7]
-    nop                          [5]    ; 16 - 2 cycles of delay between write and read operation
+    nop                          [4]    ; 16 - 3 cycles of delay between write and read operation
+
+    mov y, x                            ; Copy scratch x to y
 
     jmp x-- rx_loop                     ; Check if there are bits to read. Since x is always decrement by one, it should be the exact number of bit to shift in.
     jmp no_rx                           
@@ -33,11 +35,13 @@ rx_loop:
     in pins, 1                   [2]    ; At 10th cycle sample one bit from pin and store it in ISR and wait 4 cycles             
     jmp x-- rx_loop     side 1   [1]    ; If x is non-zero, go back to rx_loop
     push                side 1          ; Push data to RX FIFO
-    jmp start
+    jmp end
 
 no_rx:
     in null, 32                         ; Shift in dummy bits to signal the end of the operation
     push
+end:
+    mov x, y                            ; Copy back scratch y to scratch x, in order to save the number of bits to shift in without setting scratch x again    
 .wrap
 
 

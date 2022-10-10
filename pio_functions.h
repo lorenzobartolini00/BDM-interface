@@ -38,10 +38,19 @@ void fill_tx_fifo(PIO pio, uint sm, uint *data, uint length, uint bit, bool shif
 void wait_end_operation(PIO pio, uint sm);
 
 // Stop running sm, clear instruction memory, clear fifos and add new program. Return offset
-uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog);
+uint pio_program_init(PIO pio, uint sm, const struct pio_program *pio_prog);
 
-// Start bdm-data pio program
-void do_bdm_command(PIO pio, uint sm, uint data, uint tx_bit, uint rx_bit, float pio_freq);
+// Replace an instruction at offset pio instruction memory location
+void pio_add_instr(PIO pio, uint instr, uint offset);
+
+// Set pull threshold
+void pio_set_pull_threshold(PIO pio, uint sm, uint pull_threshold);
+
+// Init bdm by setting up bdm-data.pio program in pio instruction memory
+uint bdm_init(PIO pio, uint sm, float pio_freq);
+
+// Transmit a bdm command and eventual data
+void do_bdm_command(PIO pio, uint sm, uint data, uint tx_bit, uint rx_bit, uint offset);
 
 // Do the SYNC command
 float sync(PIO pio, uint sm, float pio_freq);

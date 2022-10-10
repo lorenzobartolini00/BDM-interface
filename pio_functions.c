@@ -78,8 +78,7 @@ void wait_end_operation(PIO pio, uint sm)
     while(pio_sm_is_rx_fifo_empty(pio, sm));
 }
 
-
-uint pio_init(PIO pio, uint sm, const struct pio_program *pio_prog)
+uint pio_program_init(PIO pio, uint sm, const struct pio_program *pio_prog)
 {
     // Stop running PIO program in the state machine
     pio_sm_set_enabled(pio, sm, false);
@@ -104,37 +103,53 @@ void pio_add_instr(PIO pio, uint instr, uint offset)
     hw_claim_unlock(save);
 }
 
+
+void pio_set_pull_threshold(PIO pio, uint sm, uint pull_threshold)
+{
+    pio->sm[sm].shiftctrl = (pio->sm[sm].shiftctrl & ~(0x3e000000)) |
+                            ((pull_threshold & 0x1fu) << PIO_SM0_SHIFTCTRL_PULL_THRESH_LSB);
+}
+
+
 // Actual commands---------------------------------------------------------------
 
-// Data command
-void do_bdm_command(PIO pio, uint sm, uint data, uint tx_bit, uint rx_bit, float pio_freq)
+// Init bdm
+uint bdm_init(PIO pio, uint sm, float pio_freq)
 {
     // Clear memory and fifos and add program
-    uint offset = pio_init(pio, sm, &bdm_data_program);
+    uint offset = pio_program_init(pio, sm, &bdm_data_program);
 
     // Calculate the PIO clock divider 
     float div = get_pio_clk_div(pio_freq);
 
     // Initialize the program using the helper function in our .pio file
-    bdm_data_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, AUTO_PUSH, tx_bit, rx_bit);
+    bdm_data_program_init(pio, sm, offset, DATA_PIN, div, SHIFT_RIGHT, AUTO_PULL, AUTO_PUSH, 32, 32);
+
+    pio_sm_set_enabled(pio, sm, true);
+
+    return offset;
+}
+
+
+// Data command
+void do_bdm_command(PIO pio, uint sm, uint data, uint tx_bit, uint rx_bit, uint offset)
+{
+    // Set number of bit to shift out by changing pull threshold
+    pio_set_pull_threshold(pio, sm, tx_bit);
+
+    // Set number of bit to shift in by encoding a "set x, rx_bit" instruction in pio instr memory
+    uint instr = pio_encode_set(pio_x, rx_bit);
+    pio_add_instr(pio, instr, offset + 1);
 
     // Put data in tx fifo:
     put_tx_fifo(pio, sm, data, tx_bit, SHIFT_RIGHT);
-
-    // Set scratch x register by change pio instruction memory
-    uint instr = pio_encode_set(pio_x, rx_bit);
-    pio_add_instr(pio, instr, offset + 0);
-    // pio_sm_exec(pio, sm, instr);
-
-    // Start running bdm-data PIO program in the state machine
-    pio_sm_set_enabled(pio, sm, true);
 }
 
 // Sync
 float sync(PIO pio, uint sm, float pio_freq)
 {
     // Clear memory and fifos and add program
-    uint offset = pio_init(pio, sm, &bdm_sync_program);
+    uint offset = pio_program_init(pio, sm, &bdm_sync_program);
 
     // Calculate the PIO clock divider 
     float div = get_pio_clk_div(pio_freq);

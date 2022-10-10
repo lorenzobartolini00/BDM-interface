@@ -52,6 +52,7 @@ int main(){
     // Initial frequency
     float pio_freq = PIO_FREQ;
     uint sync_count = 0;
+    uint pio_offset = 0;
 
     while(true)
     {
@@ -126,8 +127,15 @@ int main(){
 
             printf("Tx data: %08X; tx bit count: %d\n", data, tx_bit_count);
 
-            // Transmit command/data and receive data
-            do_bdm_command(pio, sm, data, tx_bit_count, rx_bit_count, pio_freq);
+            // If needed, initialize bdm-data program in pio instruction memeory. 
+            if(sync_count == 0)
+            {
+                // Save in pio_offset the memory offset of the program.
+                pio_offset = bdm_init(pio, sm, pio_freq);
+            }
+
+            // Transmit bdm command and data
+            do_bdm_command(pio, sm, data, tx_bit_count, rx_bit_count, pio_offset);
 
             // Wait the end of the operation
             wait_end_operation(pio, sm);
