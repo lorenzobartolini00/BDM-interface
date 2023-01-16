@@ -13,13 +13,14 @@ wait_128:
     nop                         [2]     ; Hold pin low for 128 cycles
     nop                 side 1          ; Speed-up pulse
     set pindirs, 0                      ; Removes all drive to the BKGD pin so it reverts to high impedance
-    wait 0 pin 1                      ; Wait for the pin to go low(input mapping is used)
+    wait 0 pin 0                      ; Wait for the pin to go low(input mapping is used)
 
-.wrap_target
-    jmp y-- continue
-continue:    
-    jmp pin end_timer                   ; Decrement y since pin goes high again. 
-.wrap   
+loop:
+    jmp pin end_timer                   ; If pin is high, jump to end_timer
+    jmp y-- loop                        ; If y is non-zero, decrement y and restart the loop
+
+timeout:
+    push                                ; If y reaches zero -> timeout. TODO: lower the timout(now is ~18min) 
 
 end_timer:
     mov isr, !y                         ; Copy y to isr bit-reversed and push data. 
